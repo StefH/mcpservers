@@ -1,0 +1,35 @@
+<Project>
+  <PropertyGroup>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <LangVersion>latest</LangVersion>
+
+    <PackageProjectUrl>https://github.com/StefH/ModelContextProtocolServers</PackageProjectUrl>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <RepositoryType>git</RepositoryType>
+    <RepositoryUrl>https://github.com/StefH/ModelContextProtocolServers</RepositoryUrl>
+
+    <ApplicationIcon>../../resources/icon.ico</ApplicationIcon>
+    <Copyright>Copyright © 2025 Stef Heyenrath</Copyright>
+    <Authors>Stef Heyenrath</Authors>
+    <PackageIcon>icon.png</PackageIcon>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="../../resources/icon.png" Pack="true" PackagePath="" />
+    <!--<None Include="../../PackageReadme.md" Pack="true" PackagePath="" />-->
+  </ItemGroup>
+
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'">
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="ModelContextProtocol" Version="0.1.0-preview.2" />
+    <PackageReference Include="Stef.Validation" Version="0.1.1" />
+  </ItemGroup>
+</Project>
