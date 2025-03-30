@@ -1,8 +1,8 @@
-# MCP Servers
+﻿# MCP Servers
 A collection of MCP (Model Context Protocol) servers as dotnet tools
 
 
-## dotnet tool `servers`
+## 💻 dotnet tool `servers`
 | Name | NuGet | Info
 | :- | :- | :- 
 | `mcpserver.everything.stdio` | [![NuGet Badge](https://img.shields.io/nuget/v/mcpserver.everything.stdio)](https://www.nuget.org/packages/mcpserver.everything.stdio)
@@ -10,11 +10,11 @@ A collection of MCP (Model Context Protocol) servers as dotnet tools
 | `mcpserver.openxml.stdio` | [![NuGet Badge](https://img.shields.io/nuget/v/mcpserver.openxml.stdio)](https://www.nuget.org/packages/mcpserver.openxml.stdio)
 
 
-## dotnet tool `client`
+## 📱 dotnet tool `client`
 [![NuGet Badge](https://img.shields.io/nuget/v/mcpclient)](https://www.nuget.org/packages/mcpclient)
 
 
-## Projects
+## 📦 Projects
 | Name | NuGet | Info
 | :- | :- | :- 
 | `ModelContextProtocolServer.Sse` | [![NuGet Badge](https://img.shields.io/nuget/v/ModelContextProtocolServer.Sse)](https://www.nuget.org/packages/ModelContextProtocolServer.Sse) | Common framework for building a Sse MCP server.
