@@ -4,10 +4,10 @@
     <Nullable>enable</Nullable>
     <LangVersion>latest</LangVersion>
 
-    <PackageProjectUrl>https://github.com/StefH/ModelContextProtocolServers</PackageProjectUrl>
+    <PackageProjectUrl>https://github.com/StefH/mcpservers</PackageProjectUrl>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <RepositoryType>git</RepositoryType>
-    <RepositoryUrl>https://github.com/StefH/ModelContextProtocolServers</RepositoryUrl>
+    <RepositoryUrl>https://github.com/StefH/mcpservers</RepositoryUrl>
 
     <ApplicationIcon>../../resources/icon.ico</ApplicationIcon>
     <Copyright>Copyright © 2025 Stef Heyenrath</Copyright>

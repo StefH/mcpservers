@@ -19,11 +19,7 @@
     <Compile Include="..\mcpserver.openxml.stdio\Services\WordDocumentReader.cs" Link="Services\WordDocumentReader.cs" />
     <Compile Include="..\mcpserver.openxml.stdio\Tools\OpenXmlTools.cs" Link="Tools\OpenXmlTools.cs" />
   </ItemGroup>
-
-  <PropertyGroup Condition="'$(Configuration)' == 'Release'">
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-  </PropertyGroup>
-  
+ 
   <ItemGroup>
     <PackageReference Include="DocumentFormat.OpenXml" Version="3.3.0" />
     <ProjectReference Include="..\ModelContextProtocolServer.Sse\ModelContextProtocolServer.Sse.csproj" />
