@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "mcpclient": {
+      "commandName": "Project",
+      "commandLineArgs": "--command=mcpserver.everything.stdio --logger console allowedPath=c:\\temp"
+    }
+  }
+}
