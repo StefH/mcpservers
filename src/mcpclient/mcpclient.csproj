@@ -11,7 +11,7 @@
     <PackAsTool>true</PackAsTool>
     <!--<PackageReleaseNotes>$([System.IO.File]::ReadAllText("$(MSBuildProjectDirectory)/../../PackageReleaseNotes.txt"))</PackageReleaseNotes>-->
     <PackageTags>MCP;ModelContextProtocol;AI;LLM;Server;Stdio;Everything;echo;add</PackageTags>
-    <Description>A MCP client as dotnet tool to invoke the tools.</Description>
+    <Description>A MCP client as dotnet tool to invoke tools from a MCP Server (stdio or sse).</Description>
     <!--<PackageReadmeFile>PackageReadme.md</PackageReadmeFile>-->
   </PropertyGroup>
 
