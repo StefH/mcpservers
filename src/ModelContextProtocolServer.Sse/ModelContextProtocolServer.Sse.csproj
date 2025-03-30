@@ -4,8 +4,8 @@
     <Version>0.0.1-preview-01</Version>
     <TargetFramework>net8.0</TargetFramework>
     <!--<PackageReleaseNotes>$([System.IO.File]::ReadAllText("$(MSBuildProjectDirectory)/../../PackageReleaseNotes.txt"))</PackageReleaseNotes>-->
-    <PackageTags>MCP;ModelContextProtocol;AI;LLM;Server;Stdio;OpenXML;Word;docx</PackageTags>
-    <Description>Common logic for Sse MCP server.</Description>
+    <PackageTags>MCP;ModelContextProtocol;AI;LLM;Server;Sse</PackageTags>
+    <Description>Common framework for building a Sse MCP server.</Description>
     <!--<PackageReadmeFile>PackageReadme.md</PackageReadmeFile>-->
   </PropertyGroup>
 

@@ -5,7 +5,7 @@
     <TargetFramework>net8.0</TargetFramework>
     <!--<PackageReleaseNotes>$([System.IO.File]::ReadAllText("$(MSBuildProjectDirectory)/../../PackageReleaseNotes.txt"))</PackageReleaseNotes>-->
     <PackageTags>MCP;ModelContextProtocol;AI;LLM;Server;Stdio</PackageTags>
-    <Description>Common logic for Stdio MCP server.</Description>
+    <Description>Common framework for building a Stdio MCP server.</Description>
     <!--<PackageReadmeFile>PackageReadme.md</PackageReadmeFile>-->
   </PropertyGroup>
 
