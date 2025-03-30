@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <Version>0.0.1-preview-01</Version>
+    <PackageId>mcpserver.everything.stdio</PackageId>
+    <ToolCommandName>mcpserver.everything.stdio</ToolCommandName>
+    <RootNamespace>ModelContextProtocolServer.Everything.Stdio</RootNamespace>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <IsPackable>true</IsPackable>
+    <PackAsTool>true</PackAsTool>
+    <!--<PackageReleaseNotes>$([System.IO.File]::ReadAllText("$(MSBuildProjectDirectory)/../../PackageReleaseNotes.txt"))</PackageReleaseNotes>-->
+    <PackageTags>MCP;ModelContextProtocol;AI;LLM;Server;Stdio;Everything;echo;add</PackageTags>
+    <Description>A Stdio MCP server as dotnet tool with some features of the MCP protocol: echo and add.</Description>
+    <!--<PackageReadmeFile>PackageReadme.md</PackageReadmeFile>-->
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ModelContextProtocolServer.Stdio\ModelContextProtocolServer.Stdio.csproj" />
+  </ItemGroup>
+
+</Project>

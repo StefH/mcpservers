@@ -1,0 +1,26 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <Version>0.0.1-preview-01</Version>
+    <PackageId>mcpserver.openxml.stdio</PackageId>
+    <ToolCommandName>mcpserver.openxml.stdio</ToolCommandName>
+    <RootNamespace>ModelContextProtocolServer.OpenXml.Stdio</RootNamespace>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <IsPackable>true</IsPackable>
+    <PackAsTool>true</PackAsTool>
+    <!--<PackageReleaseNotes>$([System.IO.File]::ReadAllText("$(MSBuildProjectDirectory)/../../PackageReleaseNotes.txt"))</PackageReleaseNotes>-->
+    <PackageTags>MCP;ModelContextProtocol;AI;LLM;Server;Stdio;OpenXML;Word;docx</PackageTags>
+    <Description>An Stdio MCP server as dotnet tool to extract text from a .docx file.</Description>
+    <!--<PackageReadmeFile>PackageReadme.md</PackageReadmeFile>-->
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="DocumentFormat.OpenXml" Version="3.3.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ModelContextProtocolServer.Stdio\ModelContextProtocolServer.Stdio.csproj" />
+  </ItemGroup>
+
+</Project>
