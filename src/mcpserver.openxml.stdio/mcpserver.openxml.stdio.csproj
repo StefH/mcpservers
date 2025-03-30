@@ -11,7 +11,7 @@
     <PackAsTool>true</PackAsTool>
     <!--<PackageReleaseNotes>$([System.IO.File]::ReadAllText("$(MSBuildProjectDirectory)/../../PackageReleaseNotes.txt"))</PackageReleaseNotes>-->
     <PackageTags>MCP;ModelContextProtocol;AI;LLM;Server;Stdio;OpenXML;Word;docx</PackageTags>
-    <Description>An Stdio MCP server for read .docx files.</Description>
+    <Description>An Stdio MCP server as dotnet tool to extract text from a .docx file.</Description>
     <!--<PackageReadmeFile>PackageReadme.md</PackageReadmeFile>-->
   </PropertyGroup>
 

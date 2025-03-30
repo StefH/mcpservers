@@ -11,7 +11,7 @@
     <PackAsTool>true</PackAsTool>
     <!--<PackageReleaseNotes>$([System.IO.File]::ReadAllText("$(MSBuildProjectDirectory)/../../PackageReleaseNotes.txt"))</PackageReleaseNotes>-->
     <PackageTags>MCP;ModelContextProtocol;AI;LLM;Server;Stdio;OpenXML;Word;docx</PackageTags>
-    <Description>An SSE MCP server for read .docx files.</Description>
+    <Description>An SSE MCP server as dotnet tool for read .docx files.</Description>
     <!--<PackageReadmeFile>PackageReadme.md</PackageReadmeFile>-->
   </PropertyGroup>
 
@@ -19,7 +19,7 @@
     <Compile Include="..\mcpserver.openxml.stdio\Services\WordDocumentReader.cs" Link="Services\WordDocumentReader.cs" />
     <Compile Include="..\mcpserver.openxml.stdio\Tools\OpenXmlTools.cs" Link="Tools\OpenXmlTools.cs" />
   </ItemGroup>
- 
+
   <ItemGroup>
     <PackageReference Include="DocumentFormat.OpenXml" Version="3.3.0" />
     <ProjectReference Include="..\ModelContextProtocolServer.Sse\ModelContextProtocolServer.Sse.csproj" />
