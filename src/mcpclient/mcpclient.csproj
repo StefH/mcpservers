@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <Version>0.0.1-preview-01</Version>
+    <Version>0.0.1-preview-02</Version>
     <PackageId>mcpclient</PackageId>
     <ToolCommandName>mcpclient</ToolCommandName>
     <RootNamespace>ModelContextProtocol.Client</RootNamespace>
@@ -12,12 +12,15 @@
     <!--<PackageReleaseNotes>$([System.IO.File]::ReadAllText("$(MSBuildProjectDirectory)/../../PackageReleaseNotes.txt"))</PackageReleaseNotes>-->
     <PackageTags>MCP;ModelContextProtocol;AI;LLM;Server;Stdio;Everything;echo;add</PackageTags>
     <Description>A MCP client as dotnet tool to invoke tools from a MCP Server (stdio or sse).</Description>
-    <!--<PackageReadmeFile>PackageReadme.md</PackageReadmeFile>-->
+    <PackageReadmeFile>PackageReadme.md</PackageReadmeFile>
   </PropertyGroup>
 
   <ItemGroup>
+    <None Include="PackageReadme.md" Pack="true" PackagePath="" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="8.0.1" />
-    <!--<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="8.0.1" />-->
     <PackageReference Include="Spectre.Console.Cli" Version="0.49.1" />
   </ItemGroup>
 

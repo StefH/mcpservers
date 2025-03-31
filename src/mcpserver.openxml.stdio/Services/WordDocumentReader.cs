@@ -27,19 +27,8 @@ internal static class WordDocumentReader
 
         var textBuilder = new StringBuilder();
 
-        // Get all paragraphs in the document
-        var paragraphs = body.Elements<Paragraph>();
+        var paragraphs = body.Elements();
         foreach (var element in paragraphs)
-        {
-            textBuilder.AppendLine(GetTextFromElement(element));
-            textBuilder.AppendLine();
-        }
-
-        textBuilder.AppendLine();
-
-        // Get all tables in the document
-        var tables = body.Elements<Table>();
-        foreach (var element in tables)
         {
             textBuilder.AppendLine(GetTextFromElement(element));
             textBuilder.AppendLine();
@@ -61,7 +50,7 @@ internal static class WordDocumentReader
         }
     }
 
-    private static string GetTextFromElement(OpenXmlCompositeElement? element)
+    private static string GetTextFromElement(OpenXmlElement? element)
     {
         return element == null ? string.Empty : string.Join("", element.Descendants<Text>().Select(t => t.Text));
     }
