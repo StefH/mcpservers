@@ -3,6 +3,7 @@ using System.Reflection;
 using System.Text.Json;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
+using ModelContextProtocol.Client.Extensions;
 using ModelContextProtocol.Client.Types;
 using ModelContextProtocol.Configuration;
 using ModelContextProtocol.Protocol.Transport;
@@ -73,7 +74,7 @@ internal class McpClientCommand : AsyncCommand<McpClientCommand.Settings>
             Name = name,
             TransportType = settings.TransportType,
             Location = settings.Location,
-            TransportOptions = new Dictionary<string, string>()
+            TransportOptions = []
         };
 
         if (settings.TransportType == TransportTypes.StdIo)
@@ -104,7 +105,8 @@ internal class McpClientCommand : AsyncCommand<McpClientCommand.Settings>
             LoggerFactory.Create(c => c.AddConsole()) :
             NullLoggerFactory.Instance;
 
-        await using var client = await McpClientFactory.CreateAsync(config, options, null, loggerFactory);
+        var client = await McpClientFactory.CreateAsync(config, options, null, loggerFactory);
+        client.DisposeAsyncOnApplicationExit();
 
         var tools = await client.ListToolsAsync();
         var prompts = tools
@@ -115,7 +117,7 @@ internal class McpClientCommand : AsyncCommand<McpClientCommand.Settings>
         do
         {
             AnsiConsole.WriteLine();
-            var selectedTool = AnsiConsole.Prompt(
+            var (menu, tool) = AnsiConsole.Prompt(
                 new SelectionPrompt<MenuItem>()
                     .Title("Select a tool to execute:")
                     .PageSize(10)
@@ -123,14 +125,14 @@ internal class McpClientCommand : AsyncCommand<McpClientCommand.Settings>
                     .UseConverter(menuItem => menuItem.Menu)
             );
 
-            if (selectedTool.Menu == "Quit")
+            if (menu == "Quit")
             {
                 break;
             }
 
-            var inputSchema = JsonSerializer.Deserialize<JsonSchema>(selectedTool.Tool!.JsonSchema.GetRawText());
+            var inputSchema = JsonSerializer.Deserialize<JsonSchema>(tool!.JsonSchema.GetRawText());
             var arguments = ArgumentUtils.GetArgumentValues(inputSchema?.Properties);
-            var result = await selectedTool.Tool.InvokeAsync(arguments);
+            var result = await tool.InvokeAsync(arguments);
             var text = ((JsonElement)result!).GetProperty("content")[0].GetProperty("text").GetString();
 
             AnsiConsole.WriteLine();
