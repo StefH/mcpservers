@@ -1,7 +1,7 @@
 using System.Reflection;
-using System.Reflection.Metadata.Ecma335;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using ModelContextProtocol;
 using ModelContextProtocol.Protocol.Types;
@@ -12,19 +12,24 @@ public static class SseServer
 {
     public static Task RunAsync(params string[] args)
     {
-        return RunAsync("/sse", args);
+        return RunAsync(_ => { }, args);
     }
 
-    public static Task RunAsync(string sseEndpoint, params string[] args)
+    public static Task RunAsync(Action<IServiceCollection> servicesAction, params string[] args)
+    {
+        return RunAsync("/sse", servicesAction, args);
+    }
+
+    public static Task RunAsync(string sseEndpoint, Action<IServiceCollection> servicesAction, params string[] args)
     {
         var assembly = Assembly.GetEntryAssembly();
         var applicationName = assembly?.GetCustomAttribute<AssemblyTitleAttribute>()?.Title ?? $"mcpserver.{Guid.NewGuid()}.sse";
         var version = assembly?.GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion.Split('+')[0] ?? "1.0.0";
 
-        return RunAsync(applicationName, version, sseEndpoint, args);
+        return RunAsync(applicationName, version, sseEndpoint, servicesAction, args);
     }
 
-    public static Task RunAsync(string applicationName, string version, string sseEndpoint, params string[] args)
+    public static Task RunAsync(string applicationName, string version, string sseEndpoint, Action<IServiceCollection> servicesAction, params string[] args)
     {
         var builder = WebApplication.CreateBuilder(new WebApplicationOptions
         {
@@ -39,6 +44,8 @@ public static class SseServer
                 Version = version
             })
             .WithToolsFromAssembly(Assembly.GetEntryAssembly());
+
+        servicesAction(builder.Services);
 
         builder.Configuration
             .AddCommandLine(args)

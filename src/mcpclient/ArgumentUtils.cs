@@ -5,7 +5,7 @@ namespace ModelContextProtocol.Client;
 
 internal static class ArgumentUtils
 {
-    public static Dictionary<string, object?> GetArgumentValues(Dictionary<string, JsonSchemaProperty>? properties)
+    public static Dictionary<string, object?> GetArgumentValues(Dictionary<string, JsonSchemaProperty>? properties, List<string>? required)
     {
         var arguments = new Dictionary<string, object?>();
         if (properties == null)
@@ -13,12 +13,17 @@ internal static class ArgumentUtils
             return arguments;
         }
 
+        var requiredPropertyNames = required ?? [];
         foreach (var (propertyName, property) in properties)
         {
             var description = property.Description ?? string.Empty;
-            var value = AnsiConsole.Ask<string>($"Enter value for {description} '{propertyName}' :");
+            var isRequired = requiredPropertyNames.Contains(propertyName);
 
-            var type = ConvertParameterDataType(property, true);
+            var value = isRequired ? 
+                AnsiConsole.Ask<string>($"Enter required value for {description} '{propertyName}' :"):
+                AnsiConsole.Ask($"Enter optional value for {description} '{propertyName}' :", "null");
+
+            var type = ConvertParameterDataType(property, isRequired);
             arguments[propertyName] = ToArgumentValue(type, value);
         }
 
@@ -41,8 +46,13 @@ internal static class ArgumentUtils
         return !required && type.IsValueType ? typeof(Nullable<>).MakeGenericType(type) : type;
     }
 
-    private static object ToArgumentValue(Type parameterType, object value)
+    private static object? ToArgumentValue(Type parameterType, string value)
     {
+        if (value == "null")
+        {
+            return null;
+        }
+
         if (Nullable.GetUnderlyingType(parameterType) == typeof(int))
         {
             return Convert.ToInt32(value);
@@ -58,15 +68,15 @@ internal static class ArgumentUtils
             return Convert.ToBoolean(value);
         }
 
-        if (parameterType == typeof(List<string>))
-        {
-            return (value as IEnumerable<object>)?.ToList() ?? value;
-        }
+        //if (parameterType == typeof(List<string>))
+        //{
+        //    return (value as IEnumerable<object>)?.ToList() ?? value;
+        //}
 
-        if (parameterType == typeof(Dictionary<string, object>))
-        {
-            return (value as Dictionary<string, object>)?.ToDictionary(kvp => kvp.Key, kvp => kvp.Value) ?? value;
-        }
+        //if (parameterType == typeof(Dictionary<string, object>))
+        //{
+        //    return (value as Dictionary<string, object>)?.ToDictionary(kvp => kvp.Key, kvp => kvp.Value) ?? value;
+        //}
 
         return value;
     }
