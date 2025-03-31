@@ -23,7 +23,7 @@ internal class McpClientCommand : AsyncCommand<McpClientCommand.Settings>
 
         [CommandOption("-t|--transportType")]
         [Description("MCP Server TransportType (stdio or sse)")]
-        [DefaultValue("stdio")]
+        [DefaultValue(TransportTypes.StdIo)]
         public required string TransportType { get; init; }
 
         [CommandOption("-l|--location")]
@@ -37,6 +37,26 @@ internal class McpClientCommand : AsyncCommand<McpClientCommand.Settings>
         [CommandArgument(0, "[arguments]")]
         [Description("MCP Server Arguments (stdio only)")]
         public string[]? Arguments { get; init; }
+
+        public override ValidationResult Validate()
+        {
+            if (TransportType != TransportTypes.StdIo && TransportType != TransportTypes.Sse)
+            {
+                return ValidationResult.Error("The transportType should be 'stdio' or 'sse'.");
+            }
+
+            if (Logger != "console" && Logger != "null")
+            {
+                return ValidationResult.Error("The logger should be 'console' or 'null'.");
+            }
+
+            if (string.IsNullOrWhiteSpace(Command) && string.IsNullOrWhiteSpace(Location))
+            {
+                return ValidationResult.Error("The command or location is required.");
+            }
+
+            return ValidationResult.Success();
+        }
     }
 
     public override async Task<int> ExecuteAsync(CommandContext context, Settings settings)
@@ -75,7 +95,7 @@ internal class McpClientCommand : AsyncCommand<McpClientCommand.Settings>
             }
         }
 
-        McpClientOptions options = new()
+        var options = new McpClientOptions
         {
             ClientInfo = new() { Name = applicationName, Version = version }
         };
@@ -84,7 +104,7 @@ internal class McpClientCommand : AsyncCommand<McpClientCommand.Settings>
             LoggerFactory.Create(c => c.AddConsole()) :
             NullLoggerFactory.Instance;
 
-        var client = await McpClientFactory.CreateAsync(config, options, null, loggerFactory);
+        await using var client = await McpClientFactory.CreateAsync(config, options, null, loggerFactory);
 
         var tools = await client.ListToolsAsync();
         var prompts = tools
