@@ -1,5 +1,6 @@
 ﻿using System.Reflection;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using ModelContextProtocol;
 using ModelContextProtocol.Protocol.Types;
@@ -10,14 +11,24 @@ public static class StdioServer
 {
     public static Task RunAsync(params string[] args)
     {
+        return RunAsync(_ => { }, args);
+    }
+
+    public static Task RunAsync(string applicationName, string version, params string[] args)
+    {
+        return RunAsync(applicationName, version, _ => { }, args);
+    }
+
+    public static Task RunAsync(Action<IServiceCollection> servicesAction, params string[] args)
+    {
         var assembly = Assembly.GetEntryAssembly();
         var applicationName = assembly?.GetCustomAttribute<AssemblyTitleAttribute>()?.Title ?? $"mcpserver.{Guid.NewGuid()}.stdio";
         var version = assembly?.GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion.Split('+')[0] ?? "1.0.0";
 
-        return RunAsync(applicationName, version, args);
+        return RunAsync(applicationName, version, servicesAction, args);
     }
-
-    public static Task RunAsync(string applicationName, string version, params string[] args)
+    
+    public static Task RunAsync(string applicationName, string version, Action<IServiceCollection> servicesAction, params string[] args)
     {
         var builder = Host.CreateEmptyApplicationBuilder(settings: new HostApplicationBuilderSettings
         {
@@ -37,6 +48,8 @@ public static class StdioServer
             })
             .WithStdioServerTransport()
             .WithToolsFromAssembly(Assembly.GetEntryAssembly());
+
+        servicesAction(builder.Services);
 
         var host = builder.Build();
 

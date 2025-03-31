@@ -91,7 +91,7 @@ internal class McpClientCommand : AsyncCommand<McpClientCommand.Settings>
                 var environmentVariables = settings.Arguments.Where(a => a.StartsWith("env:")).ToArray();
                 foreach (var e in environmentVariables.Select(e => e.Split("=")).Select(x => new { name = x[0], value = x[1] }))
                 {
-                    config.TransportOptions[$"env:{e.name}"] = e.value;
+                    config.TransportOptions[e.name] = e.value;
                 }
             }
         }
@@ -131,12 +131,12 @@ internal class McpClientCommand : AsyncCommand<McpClientCommand.Settings>
             }
 
             var inputSchema = JsonSerializer.Deserialize<JsonSchema>(tool!.JsonSchema.GetRawText());
-            var arguments = ArgumentUtils.GetArgumentValues(inputSchema?.Properties);
+            var arguments = ArgumentUtils.GetArgumentValues(inputSchema?.Properties, inputSchema?.Required);
             var result = await tool.InvokeAsync(arguments);
             var text = ((JsonElement)result!).GetProperty("content")[0].GetProperty("text").GetString();
 
             AnsiConsole.WriteLine();
-            AnsiConsole.MarkupLine($"[yellow]Result:[/] {text}");
+            AnsiConsole.WriteLine($"Result: {text}");
             AnsiConsole.WriteLine();
         } while (true);
 

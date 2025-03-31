@@ -1,8 +1,0 @@
-{
-  "profiles": {
-    "mcpclient": {
-      "commandName": "Project",
-      "commandLineArgs": "--command=mcpserver.openxml.stdio --logger console allowedPath=c:\\temp"
-    }
-  }
-}
