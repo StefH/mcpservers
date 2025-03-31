@@ -28,4 +28,8 @@
     <ProjectReference Include="..\ModelContextProtocolServer.Stdio\ModelContextProtocolServer.Stdio.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <InternalsVisibleTo Include="$(AssemblyName).ConsoleApp" />
+  </ItemGroup>
+
 </Project>

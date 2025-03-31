@@ -51,9 +51,14 @@ internal class McpClientCommand : AsyncCommand<McpClientCommand.Settings>
                 return ValidationResult.Error("The logger should be 'console' or 'null'.");
             }
 
-            if (string.IsNullOrWhiteSpace(Command) && string.IsNullOrWhiteSpace(Location))
+            if (TransportType == TransportTypes.StdIo && string.IsNullOrWhiteSpace(Command))
             {
-                return ValidationResult.Error("The command or location is required.");
+                return ValidationResult.Error("The command is required for stdio.");
+            }
+
+            if (TransportType == TransportTypes.Sse && string.IsNullOrWhiteSpace(Location))
+            {
+                return ValidationResult.Error("The location is required for sse.");
             }
 
             return ValidationResult.Success();

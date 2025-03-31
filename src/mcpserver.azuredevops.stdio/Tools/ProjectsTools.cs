@@ -6,7 +6,7 @@ using ModelContextProtocolServer.AzureDevops.Stdio.Services;
 namespace ModelContextProtocolServer.AzureDevops.Stdio.Tools;
 
 [McpServerToolType]
-public class ProjectsTools(AzureDevOpsClient azureDevOpsClient) : BaseTools
+internal class ProjectsTools(AzureDevOpsClient azureDevOpsClient) : BaseTools
 {
     [McpServerTool, Description("Get Azure DevOps projects.")]
     public async Task<string> GetProjects(

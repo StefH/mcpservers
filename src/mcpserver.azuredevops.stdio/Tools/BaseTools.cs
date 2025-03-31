@@ -2,7 +2,7 @@
 
 namespace ModelContextProtocolServer.AzureDevops.Stdio.Tools;
 
-public abstract class BaseTools
+internal abstract class BaseTools
 {
     protected string ToJson(object value)
     {

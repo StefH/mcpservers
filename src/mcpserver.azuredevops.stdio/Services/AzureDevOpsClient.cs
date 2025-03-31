@@ -6,7 +6,7 @@ using Stef.Validation;
 
 namespace ModelContextProtocolServer.AzureDevops.Stdio.Services;
 
-public class AzureDevOpsClient
+internal class AzureDevOpsClient
 {
     public ProjectHttpClient ProjectHttpClient { get; }
 
