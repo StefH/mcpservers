@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <Version>0.0.1-preview-03</Version>
+    <Version>0.0.1-preview-04</Version>
     <TargetFramework>net8.0</TargetFramework>
     <!--<PackageReleaseNotes>$([System.IO.File]::ReadAllText("$(MSBuildProjectDirectory)/../../PackageReleaseNotes.txt"))</PackageReleaseNotes>-->
     <PackageTags>MCP;ModelContextProtocol;AI;LLM;Server;Sse</PackageTags>
@@ -10,11 +10,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Include="..\ModelContextProtocolServer.Stdio\LoggerHelper.cs" Link="LoggerHelper.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Include="PackageReadme.md" Pack="true" PackagePath="" />
   </ItemGroup>
 
   <ItemGroup>
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Serilog.Extensions.Logging" Version="9.0.1" />
+    <PackageReference Include="Serilog.Sinks.File" Version="6.0.0" />
   </ItemGroup>
 
 </Project>

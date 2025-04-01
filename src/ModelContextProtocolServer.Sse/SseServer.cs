@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using ModelContextProtocol;
 using ModelContextProtocol.Protocol.Types;
+using ModelContextProtocolServer.Stdio;
 
 namespace ModelContextProtocolServer.Sse;
 
@@ -38,6 +39,7 @@ public static class SseServer
         });
 
         builder.Services
+            .AddSingleton(LoggerHelper.CreateLoggerFactory(applicationName))
             .AddMcpServer(o => o.ServerInfo = new Implementation
             {
                 Name = applicationName,

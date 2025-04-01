@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using ModelContextProtocol;
 using ModelContextProtocol.Protocol.Types;
 
@@ -41,6 +42,7 @@ public static class StdioServer
             .AddEnvironmentVariables();
 
         builder.Services
+            .AddSingleton(LoggerHelper.CreateLoggerFactory(applicationName))
             .AddMcpServer(o => o.ServerInfo = new Implementation
             {
                 Name = applicationName,
