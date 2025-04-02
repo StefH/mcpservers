@@ -135,13 +135,13 @@ internal class McpClientCommand : AsyncCommand<McpClientCommand.Settings>
                 break;
             }
 
-            var inputSchema = JsonSerializer.Deserialize<JsonSchema>(tool!.JsonSchema.GetRawText());
+            var inputSchema = tool!.JsonSchema.Deserialize<JsonSchema>();
             var arguments = ArgumentUtils.GetArgumentValues(inputSchema?.Properties, inputSchema?.Required);
             var result = await tool.InvokeAsync(arguments);
             var text = ((JsonElement)result!).GetProperty("content")[0].GetProperty("text").GetString();
 
             AnsiConsole.WriteLine();
-            AnsiConsole.WriteLine($"Result: {text}");
+            AnsiConsole.MarkupLineInterpolated($"[yellow]Result:[/] {text}");
             AnsiConsole.WriteLine();
         } while (true);
 
