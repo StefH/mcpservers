@@ -2,7 +2,6 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using ModelContextProtocol;
 using ModelContextProtocol.Protocol.Types;
 
@@ -28,7 +27,7 @@ public static class StdioServer
 
         return RunAsync(applicationName, version, servicesAction, args);
     }
-    
+
     public static Task RunAsync(string applicationName, string version, Action<IServiceCollection> servicesAction, params string[] args)
     {
         var builder = Host.CreateEmptyApplicationBuilder(settings: new HostApplicationBuilderSettings
