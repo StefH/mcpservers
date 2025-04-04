@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <Version>0.0.1-preview-03</Version>
+    <Version>0.0.1-preview-04</Version>
     <PackageId>mcpserver.everything.stdio</PackageId>
     <ToolCommandName>mcpserver.everything.stdio</ToolCommandName>
     <RootNamespace>ModelContextProtocolServer.Everything.Stdio</RootNamespace>
