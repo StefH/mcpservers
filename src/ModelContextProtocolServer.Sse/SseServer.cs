@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using ModelContextProtocol;
 using ModelContextProtocol.Protocol.Types;
 using ModelContextProtocolServer.Stdio;
 
@@ -27,10 +26,10 @@ public static class SseServer
         var applicationName = assembly?.GetCustomAttribute<AssemblyTitleAttribute>()?.Title ?? $"mcpserver.{Guid.NewGuid()}.sse";
         var version = assembly?.GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion.Split('+')[0] ?? "1.0.0";
 
-        return RunAsync(applicationName, version, sseEndpoint, servicesAction, args);
+        return RunAsync(applicationName, version, servicesAction, args);
     }
 
-    public static Task RunAsync(string applicationName, string version, string sseEndpoint, Action<IServiceCollection> servicesAction, params string[] args)
+    public static Task RunAsync(string applicationName, string version, Action<IServiceCollection> servicesAction, params string[] args)
     {
         var builder = WebApplication.CreateBuilder(new WebApplicationOptions
         {
@@ -55,7 +54,7 @@ public static class SseServer
 
         var app = builder.Build();
         app.Map("/", () => $"MCP Server '{applicationName}' ({version}) is running.");
-        app.MapMcpSse(sseEndpoint);
+        app.MapMcp();
 
         var cts = new CancellationTokenSource();
 

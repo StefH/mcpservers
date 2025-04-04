@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <Version>0.0.1-preview-03</Version>
+    <Version>0.0.1-preview-04</Version>
     <PackageId>mcpserver.openxml.sse</PackageId>
     <ToolCommandName>mcpserver.openxml.sse</ToolCommandName>
     <RootNamespace>ModelContextProtocolServer.OpenXml.Sse</RootNamespace>

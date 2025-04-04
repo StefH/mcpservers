@@ -5,7 +5,6 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using ModelContextProtocol.Client.Extensions;
 using ModelContextProtocol.Client.Types;
-using ModelContextProtocol.Configuration;
 using ModelContextProtocol.Protocol.Transport;
 using Spectre.Console;
 using Spectre.Console.Cli;
