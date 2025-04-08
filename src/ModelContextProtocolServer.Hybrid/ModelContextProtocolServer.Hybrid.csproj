@@ -12,7 +12,7 @@
   <ItemGroup>
     <Compile Include="..\ModelContextProtocolServer.Stdio\LoggerHelper.cs" Link="LoggerHelper.cs" />
     <Compile Include="..\ModelContextProtocolServer.Stdio\StdioServer.cs" Link="StdioServer.cs" />
-    <Compile Include="..\ModelContextProtocolServer.Stdio\SseServer.cs" Link="SseServer.cs" />
+    <Compile Include="..\ModelContextProtocolServer.Sse\SseServer.cs" Link="SseServer.cs" />
   </ItemGroup>
 
   <ItemGroup>

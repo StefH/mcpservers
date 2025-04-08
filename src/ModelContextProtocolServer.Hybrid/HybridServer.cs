@@ -1,5 +1,6 @@
 using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
+using ModelContextProtocolServer.Sse;
 using ModelContextProtocolServer.Stdio;
 
 namespace ModelContextProtocolServer.Hybrid;
@@ -29,7 +30,7 @@ public static class HybridServer
 
         if (args.Contains("--sse"))
         {
-            return StdioServer.RunAsync(applicationName, version, servicesAction, args);
+            return SseServer.RunAsync(applicationName, version, servicesAction, args);
         }
 
         throw new ArgumentException("The argument '--stdio' or '--sse' should be provided.");
