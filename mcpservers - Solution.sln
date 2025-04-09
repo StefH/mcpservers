@@ -27,6 +27,9 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModelContextProtocolServer.Sse", "src\ModelContextProtocolServer.Sse\ModelContextProtocolServer.Sse.csproj", "{F11F9407-AD3E-0A6E-C347-42AB63EDB91E}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
+	ProjectSection(SolutionItems) = preProject
+		src\Directory.Build.props = src\Directory.Build.props
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src-client", "src-client", "{846C56BB-31AC-4845-8E35-65B418E922F8}"
 EndProject
