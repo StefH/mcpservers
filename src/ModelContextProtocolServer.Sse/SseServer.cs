@@ -17,18 +17,13 @@ public static class SseServer
 
     public static Task RunAsync(Action<IServiceCollection> servicesAction, params string[] args)
     {
-        return RunAsync("/sse", servicesAction, args);
-    }
-
-    public static Task RunAsync(string sseEndpoint, Action<IServiceCollection> servicesAction, params string[] args)
-    {
         var assembly = Assembly.GetEntryAssembly();
         var applicationName = assembly?.GetCustomAttribute<AssemblyTitleAttribute>()?.Title ?? $"mcpserver.{Guid.NewGuid()}.sse";
         var version = assembly?.GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion.Split('+')[0] ?? "1.0.0";
 
         return RunAsync(applicationName, version, servicesAction, args);
     }
-
+    
     public static Task RunAsync(string applicationName, string version, Action<IServiceCollection> servicesAction, params string[] args)
     {
         var builder = WebApplication.CreateBuilder(new WebApplicationOptions
