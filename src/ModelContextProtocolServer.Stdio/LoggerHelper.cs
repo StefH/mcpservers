@@ -16,10 +16,10 @@ internal static class LoggerHelper
 
         return LoggerFactory.Create(builder =>
         {
-            builder.AddConsole(options =>
-            {
-                options.LogToStandardErrorThreshold = LogLevel.Trace;
-            });
+            //builder.AddConsole(options =>
+            //{
+            //    options.LogToStandardErrorThreshold = LogLevel.Trace;
+            //});
             builder.AddSerilog();
         });
     }
