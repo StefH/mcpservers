@@ -27,6 +27,7 @@ See [wiki: mcpclient](https://github.com/StefH/mcpservers/wiki/mcpclient).
 | :- | :- | :- 
 | `ModelContextProtocolServer.Sse` | [![NuGet Badge](https://img.shields.io/nuget/v/ModelContextProtocolServer.Sse)](https://www.nuget.org/packages/ModelContextProtocolServer.Sse) | Common framework for building a Sse MCP server.
 | `ModelContextProtocolServer.Stdio` | [![NuGet Badge](https://img.shields.io/nuget/v/ModelContextProtocolServer.Stdio)](https://www.nuget.org/packages/ModelContextProtocolServer.Stdio) | Common framework for building a Stdio MCP server.
+| `ModelContextProtocolServer.Hybrid` | [![NuGet Badge](https://img.shields.io/nuget/v/ModelContextProtocolServer.Hybrid)](https://www.nuget.org/packages/ModelContextProtocolServer.Hybrid) | Common framework for building a Hybrid MCP server.
 
 For more info, see [wiki: Projects](https://github.com/StefH/mcpservers/wiki/Projects).
 

@@ -27,10 +27,17 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModelContextProtocolServer.Sse", "src\ModelContextProtocolServer.Sse\ModelContextProtocolServer.Sse.csproj", "{F11F9407-AD3E-0A6E-C347-42AB63EDB91E}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
+	ProjectSection(SolutionItems) = preProject
+		src\Directory.Build.props = src\Directory.Build.props
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src-client", "src-client", "{846C56BB-31AC-4845-8E35-65B418E922F8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mcpclient", "src\mcpclient\mcpclient.csproj", "{5C5FD6DA-A3F2-3CC5-3C80-BB6CBB1F7341}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModelContextProtocolServer.Hybrid", "src\ModelContextProtocolServer.Hybrid\ModelContextProtocolServer.Hybrid.csproj", "{4219C3D9-C83D-9DB2-509F-7C7DF20FEBA4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mcpserver.openxml", "src\mcpserver.openxml\mcpserver.openxml.csproj", "{AFBCA667-096B-B0ED-5780-D6026E9ABDA5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -62,6 +69,14 @@ Global
 		{5C5FD6DA-A3F2-3CC5-3C80-BB6CBB1F7341}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5C5FD6DA-A3F2-3CC5-3C80-BB6CBB1F7341}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5C5FD6DA-A3F2-3CC5-3C80-BB6CBB1F7341}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4219C3D9-C83D-9DB2-509F-7C7DF20FEBA4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4219C3D9-C83D-9DB2-509F-7C7DF20FEBA4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4219C3D9-C83D-9DB2-509F-7C7DF20FEBA4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4219C3D9-C83D-9DB2-509F-7C7DF20FEBA4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AFBCA667-096B-B0ED-5780-D6026E9ABDA5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AFBCA667-096B-B0ED-5780-D6026E9ABDA5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AFBCA667-096B-B0ED-5780-D6026E9ABDA5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AFBCA667-096B-B0ED-5780-D6026E9ABDA5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -73,6 +88,8 @@ Global
 		{54E80CF7-EA72-0EC1-A0C8-1AD6BDC0A6A1} = {94D1D405-E9C2-4FB3-A220-1E5C4AB2C2B4}
 		{F11F9407-AD3E-0A6E-C347-42AB63EDB91E} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 		{5C5FD6DA-A3F2-3CC5-3C80-BB6CBB1F7341} = {846C56BB-31AC-4845-8E35-65B418E922F8}
+		{4219C3D9-C83D-9DB2-509F-7C7DF20FEBA4} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{AFBCA667-096B-B0ED-5780-D6026E9ABDA5} = {94D1D405-E9C2-4FB3-A220-1E5C4AB2C2B4}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {45F31459-D6F5-441C-890A-F02A1328053D}
