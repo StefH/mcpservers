@@ -1,17 +1,17 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <Version>0.0.1-preview-04</Version>
-    <PackageId>mcpserver.openxml.sse</PackageId>
-    <ToolCommandName>mcpserver.openxml.sse</ToolCommandName>
-    <RootNamespace>ModelContextProtocolServer.OpenXml.Sse</RootNamespace>
+    <Version>0.0.1-preview-00</Version>
+    <PackageId>mcpserver.openxml</PackageId>
+    <ToolCommandName>mcpserver.openxml</ToolCommandName>
+    <RootNamespace>ModelContextProtocolServer.OpenXml</RootNamespace>
     <OutputType>Exe</OutputType>
     <TargetFramework>net8.0</TargetFramework>
     <IsPackable>true</IsPackable>
     <PackAsTool>true</PackAsTool>
     <!--<PackageReleaseNotes>$([System.IO.File]::ReadAllText("$(MSBuildProjectDirectory)/../../PackageReleaseNotes.txt"))</PackageReleaseNotes>-->
-    <PackageTags>MCP;ModelContextProtocol;AI;LLM;Server;Sse;OpenXML;Word;docx</PackageTags>
-    <Description>An SSE MCP server as dotnet tool for reading .docx files.</Description>
+    <PackageTags>MCP;ModelContextProtocol;AI;LLM;Server;Stdio;Sse;OpenXML;Word;docx</PackageTags>
+    <Description>An See or Stdio MCP server as dotnet tool for reading .docx files.</Description>
     <PackageReadmeFile>PackageReadme.md</PackageReadmeFile>
   </PropertyGroup>
 
@@ -26,7 +26,10 @@
 
   <ItemGroup>
     <PackageReference Include="DocumentFormat.OpenXml" Version="3.3.0" />
-    <ProjectReference Include="..\ModelContextProtocolServer.Sse\ModelContextProtocolServer.Sse.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ModelContextProtocolServer.Hybrid\ModelContextProtocolServer.Hybrid.csproj" />
   </ItemGroup>
 
 </Project>

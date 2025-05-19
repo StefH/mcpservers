@@ -1,16 +1,17 @@
-﻿using ModelContextProtocol.Client.Types;
+﻿using Microsoft.Extensions.AI;
+using ModelContextProtocol.Client.Types;
 using Spectre.Console;
 
 namespace ModelContextProtocol.Client;
 
 internal static class ArgumentUtils
 {
-    public static Dictionary<string, object?> GetArgumentValues(Dictionary<string, JsonSchemaProperty>? properties, List<string>? required)
+    public static AIFunctionArguments GetArgumentValues(Dictionary<string, JsonSchemaProperty>? properties, List<string>? required)
     {
         var arguments = new Dictionary<string, object?>();
         if (properties == null)
         {
-            return arguments;
+            return new AIFunctionArguments();
         }
 
         var requiredPropertyNames = required ?? [];
@@ -27,7 +28,7 @@ internal static class ArgumentUtils
             arguments[propertyName] = ToArgumentValue(type, value);
         }
 
-        return arguments;
+        return new AIFunctionArguments(arguments);
     }
 
     private static Type ConvertParameterDataType(JsonSchemaProperty property, bool required)
