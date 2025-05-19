@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using ModelContextProtocol.Server;
+using ModelContextProtocolServer.Everything.Stdio.Models;
 
 namespace ModelContextProtocolServer.Everything.Stdio.Tools;
 
@@ -17,5 +18,12 @@ public static class EverythingTools
     {
         var sum = a + b;
         return $"The sum of {a} and {b} is {sum}.";
+    }
+
+    [McpServerTool, Description("Adds two complex numbers")]
+    public static string AddComplex([Description("First complex number")] ComplexNumber complexA, [Description("Second complex number")] ComplexNumber complexB)
+    {
+        var sum = new ComplexNumber(complexA.Real + complexB.Real, complexA.Imaginary + complexB.Imaginary);
+        return $"The sum of {complexA} and {complexB} is {sum}.";
     }
 }
