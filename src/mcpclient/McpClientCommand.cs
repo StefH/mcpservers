@@ -5,7 +5,6 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using ModelContextProtocol.Client.Extensions;
 using ModelContextProtocol.Client.Types;
-using ModelContextProtocol.Protocol.Transport;
 using Spectre.Console;
 using Spectre.Console.Cli;
 using MenuItem = (string Menu, ModelContextProtocol.Client.McpClientTool? Tool);
@@ -89,10 +88,10 @@ internal class McpClientCommand : AsyncCommand<McpClientCommand.Settings>
             var stdioOptions = new StdioClientTransportOptions
             {
                 Command = settings.Command ?? throw new ArgumentNullException(nameof(settings.Command)),
-                EnvironmentVariables = new Dictionary<string, string>(),
+                EnvironmentVariables = new Dictionary<string, string?>(),
                 Name = name
             };
-            
+
             if (settings.Arguments != null)
             {
                 var arguments = settings.Arguments.Where(a => !a.StartsWith("env:")).ToArray();

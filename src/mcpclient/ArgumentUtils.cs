@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.AI;
+﻿using System.Text.Json;
+using Microsoft.Extensions.AI;
 using ModelContextProtocol.Client.Types;
 using Spectre.Console;
 
@@ -19,32 +20,42 @@ internal static class ArgumentUtils
         {
             var description = property.Description ?? string.Empty;
             var isRequired = requiredPropertyNames.Contains(propertyName);
-
-            var value = isRequired ? 
-                AnsiConsole.Ask<string>($"Enter required value for {description} '{propertyName}' :"):
-                AnsiConsole.Ask($"Enter optional value for {description} '{propertyName}' :", "null");
-
             var type = ConvertParameterDataType(property, isRequired);
-            arguments[propertyName] = ToArgumentValue(type, value);
+
+            string value;
+            if (type.Simple)
+            {
+                value = isRequired ?
+                    AnsiConsole.Ask<string>($"Enter required value for {description} '{propertyName}' :") :
+                    AnsiConsole.Ask($"Enter optional value for {description} '{propertyName}' :", "null");
+            }
+            else
+            {
+                value = isRequired ?
+                    AnsiConsole.Ask<string>($"Enter required value for {description} '{propertyName}' as JSON: ") :
+                    AnsiConsole.Ask($"Enter optional value for {description} '{propertyName}' as JSON :", "null");
+            }
+
+            arguments[propertyName] = ToArgumentValue(type.Type, value);
         }
 
         return new AIFunctionArguments(arguments);
     }
 
-    private static Type ConvertParameterDataType(JsonSchemaProperty property, bool required)
+    private static (bool Simple, Type Type) ConvertParameterDataType(JsonSchemaProperty property, bool required)
     {
-        var type = property.Type switch
+        (bool Simple, Type Type) type = property.Type switch
         {
-            "string" => typeof(string),
-            "integer" => typeof(int),
-            "number" => typeof(double),
-            "boolean" => typeof(bool),
-            "array" => typeof(List<string>),
-            "object" => typeof(Dictionary<string, object>),
-            _ => typeof(object)
+            "string" => (true, typeof(string)),
+            "integer" => (true, typeof(int)),
+            "number" => (true, typeof(double)),
+            "boolean" => (true, typeof(bool)),
+            "array" => (false, typeof(List<object>)),
+            // "object" => (false, typeof(Dictionary<string, object?>)),
+            _ => (false, typeof(Dictionary<string, object?>))
         };
 
-        return !required && type.IsValueType ? typeof(Nullable<>).MakeGenericType(type) : type;
+        return (type.Simple, !required && type.Type.IsValueType ? typeof(Nullable<>).MakeGenericType(type.Type) : type.Type);
     }
 
     private static object? ToArgumentValue(Type parameterType, string value)
@@ -52,6 +63,11 @@ internal static class ArgumentUtils
         if (value == "null")
         {
             return null;
+        }
+
+        if (Nullable.GetUnderlyingType(parameterType) == typeof(string))
+        {
+            return value;
         }
 
         if (Nullable.GetUnderlyingType(parameterType) == typeof(int))
@@ -69,16 +85,6 @@ internal static class ArgumentUtils
             return Convert.ToBoolean(value);
         }
 
-        //if (parameterType == typeof(List<string>))
-        //{
-        //    return (value as IEnumerable<object>)?.ToList() ?? value;
-        //}
-
-        //if (parameterType == typeof(Dictionary<string, object>))
-        //{
-        //    return (value as Dictionary<string, object>)?.ToDictionary(kvp => kvp.Key, kvp => kvp.Value) ?? value;
-        //}
-
-        return value;
+        return JsonSerializer.Deserialize(value, parameterType);
     }
 }

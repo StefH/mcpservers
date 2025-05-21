@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using ModelContextProtocol.Protocol.Types;
+using ModelContextProtocol.Protocol;
 using ModelContextProtocolServer.Stdio;
 
 namespace ModelContextProtocolServer.Sse;
@@ -53,13 +53,13 @@ public static class SseServer
 
         var cts = new CancellationTokenSource();
 
-        Console.CancelKeyPress += (sender, e) =>
+        Console.CancelKeyPress += (_, e) =>
         {
             e.Cancel = true;
             cts.Cancel();
         };
 
-        AppDomain.CurrentDomain.ProcessExit += (sender, e) =>
+        AppDomain.CurrentDomain.ProcessExit += (_, e) =>
         {
             cts.Cancel();
         };
