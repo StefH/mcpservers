@@ -7,13 +7,15 @@ namespace ModelContextProtocol.Client;
 
 internal static class ArgumentUtils
 {
-    public static AIFunctionArguments GetArgumentValues(Dictionary<string, JsonSchemaProperty>? properties, List<string>? required)
+    public static AIFunctionArguments GetArgumentValues(int level, Dictionary<string, JsonSchemaProperty>? properties, List<string>? required)
     {
         var arguments = new Dictionary<string, object?>();
         if (properties == null)
         {
             return new AIFunctionArguments();
         }
+
+        var spaces = level > 0 ? new string(' ', level) : string.Empty;
 
         var requiredPropertyNames = required ?? [];
         foreach (var (propertyName, property) in properties)
@@ -26,14 +28,42 @@ internal static class ArgumentUtils
             if (type.Simple)
             {
                 value = isRequired ?
-                    AnsiConsole.Ask<string>($"Enter required value for {description} '{propertyName}' :") :
-                    AnsiConsole.Ask($"Enter optional value for {description} '{propertyName}' :", "null");
+                    AnsiConsole.Ask<string>($"{spaces}Enter required value for {description} '{propertyName}' : ") :
+                    AnsiConsole.Ask($"{spaces}Enter optional value for {description} '{propertyName}' : ", "null");
             }
             else
             {
-                value = isRequired ?
-                    AnsiConsole.Ask<string>($"Enter required value for {description} '{propertyName}' as JSON: ") :
-                    AnsiConsole.Ask($"Enter optional value for {description} '{propertyName}' as JSON :", "null");
+                bool defineValue;
+                if (isRequired)
+                {
+                    AnsiConsole.WriteLine($"{spaces}Enter required value for {description} '{propertyName}': ");
+                    defineValue = true;
+                }
+                else
+                {
+                    defineValue = AnsiConsole.Confirm($"Do you want to define an optional value for {description} '{propertyName}'?", false);
+                }
+
+                if (defineValue)
+                {
+                    if (type.Type == typeof(Dictionary<string, object?>))
+                    {
+                        var args = GetArgumentValues(level + 1, property.Properties, property.Required);
+                        value = JsonSerializer.Serialize(args);
+                    }
+                    else
+                    {
+                        var num = AnsiConsole.Ask<int>($"{spaces}How many array items?");
+                        var array = Enumerable.Range(0, num).Select(index => AnsiConsole.Ask($"{spaces}Enter value for array item[{index}] :", "null"));
+                        value = JsonSerializer.Serialize(array);
+                    }
+
+                    AnsiConsole.WriteLine();
+                }
+                else
+                {
+                    value = "null";
+                }
             }
 
             arguments[propertyName] = ToArgumentValue(type.Type, value);
@@ -58,33 +88,38 @@ internal static class ArgumentUtils
         return (type.Simple, !required && type.Type.IsValueType ? typeof(Nullable<>).MakeGenericType(type.Type) : type.Type);
     }
 
-    private static object? ToArgumentValue(Type parameterType, string value)
+    private static object? ToArgumentValue(Type parameterType, object? value)
     {
-        if (value == "null")
+        if (value is null or "null")
         {
             return null;
         }
 
-        if (Nullable.GetUnderlyingType(parameterType) == typeof(string))
+        if (value is string stringValue)
         {
-            return value;
+            if (Nullable.GetUnderlyingType(parameterType) == typeof(string))
+            {
+                return value;
+            }
+
+            if (Nullable.GetUnderlyingType(parameterType) == typeof(int))
+            {
+                return Convert.ToInt32(value);
+            }
+
+            if (Nullable.GetUnderlyingType(parameterType) == typeof(double))
+            {
+                return Convert.ToDouble(value);
+            }
+
+            if (Nullable.GetUnderlyingType(parameterType) == typeof(bool))
+            {
+                return Convert.ToBoolean(value);
+            }
+
+            return JsonSerializer.Deserialize(stringValue, parameterType);
         }
 
-        if (Nullable.GetUnderlyingType(parameterType) == typeof(int))
-        {
-            return Convert.ToInt32(value);
-        }
-
-        if (Nullable.GetUnderlyingType(parameterType) == typeof(double))
-        {
-            return Convert.ToDouble(value);
-        }
-
-        if (Nullable.GetUnderlyingType(parameterType) == typeof(bool))
-        {
-            return Convert.ToBoolean(value);
-        }
-
-        return JsonSerializer.Deserialize(value, parameterType);
+        return value;
     }
 }

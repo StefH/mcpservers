@@ -146,7 +146,7 @@ internal class McpClientCommand : AsyncCommand<McpClientCommand.Settings>
             }
 
             var inputSchema = tool!.JsonSchema.Deserialize<JsonSchema>();
-            var arguments = ArgumentUtils.GetArgumentValues(inputSchema?.Properties, inputSchema?.Required);
+            var arguments = ArgumentUtils.GetArgumentValues(0, inputSchema?.Properties, inputSchema?.Required);
             var result = await tool.InvokeAsync(arguments);
             var text = ((JsonElement)result!).GetProperty("content")[0].GetProperty("text").GetString();
 
