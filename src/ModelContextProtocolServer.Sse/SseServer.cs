@@ -39,6 +39,7 @@ public static class SseServer
                 Name = applicationName,
                 Version = version
             })
+            .WithHttpTransport()
             .WithToolsFromAssembly(Assembly.GetEntryAssembly());
 
         servicesAction(builder.Services);
@@ -48,7 +49,6 @@ public static class SseServer
             .AddEnvironmentVariables();
 
         var app = builder.Build();
-        app.Map("/", () => $"MCP Server '{applicationName}' ({version}) is running.");
         app.MapMcp();
 
         var cts = new CancellationTokenSource();
