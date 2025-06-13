@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using ModelContextProtocol.Protocol.Types;
+using ModelContextProtocol.Protocol;
 using ModelContextProtocolServer.Stdio;
 
 namespace ModelContextProtocolServer.Sse;
@@ -39,6 +39,7 @@ public static class SseServer
                 Name = applicationName,
                 Version = version
             })
+            .WithHttpTransport()
             .WithToolsFromAssembly(Assembly.GetEntryAssembly());
 
         servicesAction(builder.Services);
@@ -48,18 +49,17 @@ public static class SseServer
             .AddEnvironmentVariables();
 
         var app = builder.Build();
-        app.Map("/", () => $"MCP Server '{applicationName}' ({version}) is running.");
         app.MapMcp();
 
         var cts = new CancellationTokenSource();
 
-        Console.CancelKeyPress += (sender, e) =>
+        Console.CancelKeyPress += (_, e) =>
         {
             e.Cancel = true;
             cts.Cancel();
         };
 
-        AppDomain.CurrentDomain.ProcessExit += (sender, e) =>
+        AppDomain.CurrentDomain.ProcessExit += (_, e) =>
         {
             cts.Cancel();
         };

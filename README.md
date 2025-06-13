@@ -1,5 +1,5 @@
 ﻿# MCP Servers
-A collection of MCP (Model Context Protocol) servers as dotnet tools
+A collection of MCP (Model Context Protocol) servers (and client) as dotnet tools.
 
 
 ## 💻 dotnet tool `servers`
@@ -35,3 +35,11 @@ For more info, see [wiki: Projects](https://github.com/StefH/mcpservers/wiki/Pro
 
 ## 💡 Other Projects
 For a Microsoft SemanticKernel integration for the Model Context Protocol using the csharp-sdk, see [this project](https://github.com/StefH/McpDotNet.Extensions.SemanticKernel).
+
+## Sponsors
+
+[Entity Framework Extensions](https://entityframework-extensions.net/?utm_source=StefH) and [Dapper Plus](https://dapper-plus.net/?utm_source=StefH) are major sponsors and proud to contribute to the development of all **mcpservers**.
+
+[![Entity Framework Extensions](https://raw.githubusercontent.com/StefH/resources/main/sponsor/entity-framework-extensions-sponsor.png)](https://entityframework-extensions.net/bulk-insert?utm_source=StefH)
+
+[![Dapper Plus](https://raw.githubusercontent.com/StefH/resources/main/sponsor/dapper-plus-sponsor.png)](https://dapper-plus.net/bulk-insert?utm_source=StefH)

@@ -21,4 +21,16 @@ internal class JsonSchemaProperty
     /// </summary>
     [JsonPropertyName("description")]
     public string? Description { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Map of property names to property definitions.
+    /// </summary>
+    [JsonPropertyName("properties")]
+    public Dictionary<string, JsonSchemaProperty>? Properties { get; set; }
+
+    /// <summary>
+    /// List of required property names.
+    /// </summary>
+    [JsonPropertyName("required")]
+    public List<string>? Required { get; set; }
 }

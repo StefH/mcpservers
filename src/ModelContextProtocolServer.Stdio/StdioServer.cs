@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using ModelContextProtocol.Protocol.Types;
+using ModelContextProtocol.Protocol;
 
 namespace ModelContextProtocolServer.Stdio;
 
