@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "mcpserver.everything": {
+      "commandName": "Project",
+      "commandLineArgs": "--sse --port 5001"
+    }
+  }
+}

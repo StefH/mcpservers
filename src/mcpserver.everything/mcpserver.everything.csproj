@@ -1,0 +1,31 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <Version>0.0.1-preview-01</Version>
+    <PackageId>mcpserver.everything</PackageId>
+    <ToolCommandName>mcpserver.everything</ToolCommandName>
+    <RootNamespace>ModelContextProtocolServer.Everything</RootNamespace>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <IsPackable>true</IsPackable>
+    <PackAsTool>true</PackAsTool>
+    <!--<PackageReleaseNotes>$([System.IO.File]::ReadAllText("$(MSBuildProjectDirectory)/../../PackageReleaseNotes.txt"))</PackageReleaseNotes>-->
+    <PackageTags>MCP;ModelContextProtocol;AI;LLM;Server;Stdio;Everything;echo;add</PackageTags>
+    <Description>A Stdio MCP server as dotnet tool with some features of the MCP protocol: echo and add.</Description>
+    <PackageReadmeFile>PackageReadme.md</PackageReadmeFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="..\mcpserver.everything.stdio\Models\ComplexNumber.cs" Link="ComplexNumber.cs" />
+    <Compile Include="..\mcpserver.everything.stdio\Tools\EverythingTools.cs" Link="EverythingTools.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="PackageReadme.md" Pack="true" PackagePath="" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ModelContextProtocolServer.Hybrid\ModelContextProtocolServer.Hybrid.csproj" />
+  </ItemGroup>
+
+</Project>

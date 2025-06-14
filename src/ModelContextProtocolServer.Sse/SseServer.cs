@@ -1,5 +1,6 @@
 using System.Reflection;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -23,7 +24,7 @@ public static class SseServer
 
         return RunAsync(applicationName, version, servicesAction, args);
     }
-    
+
     public static Task RunAsync(string applicationName, string version, Action<IServiceCollection> servicesAction, params string[] args)
     {
         var builder = WebApplication.CreateBuilder(new WebApplicationOptions
@@ -47,6 +48,29 @@ public static class SseServer
         builder.Configuration
             .AddCommandLine(args)
             .AddEnvironmentVariables();
+
+        var argsParser = new ArgsParser();
+        argsParser.Parse(args);
+
+        builder.WebHost.ConfigureKestrel(options =>
+        {
+            var ports = argsParser.GetIntValues("ports");
+            if (ports != null)
+            {
+                foreach (var port in ports)
+                {
+                    options.ListenAnyIP(port);
+                }
+
+                return;
+            }
+
+            var singlePort = argsParser.GetIntValue("port");
+            if (singlePort.HasValue)
+            {
+                options.ListenAnyIP(singlePort.Value);
+            }
+        });
 
         var app = builder.Build();
         app.MapMcp();
