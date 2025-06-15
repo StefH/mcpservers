@@ -23,7 +23,7 @@ public static class SseServer
 
         return RunAsync(applicationName, version, servicesAction, args);
     }
-    
+
     public static Task RunAsync(string applicationName, string version, Action<IServiceCollection> servicesAction, params string[] args)
     {
         var builder = WebApplication.CreateBuilder(new WebApplicationOptions
