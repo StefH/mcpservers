@@ -1,8 +1,23 @@
 {
+  "$schema": "https://json.schemastore.org/launchsettings.json",
   "profiles": {
-    "mcpserver.everything": {
+    "http": {
       "commandName": "Project",
-      "commandLineArgs": "--sse --port 5001"
+      "commandLineArgs": "--sse",
+      "dotnetRunMessages": true,
+      "applicationUrl": "http://localhost:50000",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    },
+    "https": {
+      "commandName": "Project",
+      "commandLineArgs": "--sse",
+      "dotnetRunMessages": true,
+      "applicationUrl": "https://localhost:50001;http://localhost:50000",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
     }
   }
 }
