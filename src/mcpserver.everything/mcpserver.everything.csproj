@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <Version>0.0.1-preview-01</Version>
+    <Version>0.0.1</Version>
     <PackageId>mcpserver.everything</PackageId>
     <ToolCommandName>mcpserver.everything</ToolCommandName>
     <RootNamespace>ModelContextProtocolServer.Everything</RootNamespace>
@@ -11,7 +11,7 @@
     <PackAsTool>true</PackAsTool>
     <!--<PackageReleaseNotes>$([System.IO.File]::ReadAllText("$(MSBuildProjectDirectory)/../../PackageReleaseNotes.txt"))</PackageReleaseNotes>-->
     <PackageTags>MCP;ModelContextProtocol;AI;LLM;Server;Stdio;Everything;echo;add</PackageTags>
-    <Description>A Stdio MCP server as dotnet tool with some features of the MCP protocol: echo and add.</Description>
+    <Description>A hybrid (Sse and Stdio) MCP server as dotnet tool with some features of the MCP protocol: Echo, Add and AddComplex.</Description>
     <PackageReadmeFile>PackageReadme.md</PackageReadmeFile>
   </PropertyGroup>
 
