@@ -6,8 +6,21 @@ A hybrid (Stdio and SSE) MCP server as dotnet tool with some features of the MCP
 
 ### Installation
 ``` cmd
-dotnet tool install --global mcpserver.everything.stdio
+dotnet tool install --global mcpserver.everything
 ```
+
+### Usage
+
+#### Start as Stdio
+``` ps
+mcpserver.everything --stdio
+```
+
+#### Start as Sse
+``` ps
+mcpserver.everything --sse
+```
+
 
 ### Sponsors
 
