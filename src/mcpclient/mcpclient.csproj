@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <Version>0.0.1-preview-07</Version>
+    <Version>0.0.2</Version>
     <PackageId>mcpclient</PackageId>
     <ToolCommandName>mcpclient</ToolCommandName>
     <RootNamespace>ModelContextProtocol.Client</RootNamespace>
@@ -21,7 +21,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="8.0.1" />
-    <PackageReference Include="Spectre.Console.Cli" Version="0.49.1" />
+    <PackageReference Include="Spectre.Console.Cli" Version="0.50.0" />
   </ItemGroup>
 
 </Project>

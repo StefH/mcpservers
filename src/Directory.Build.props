@@ -10,7 +10,7 @@
     <RepositoryUrl>https://github.com/StefH/mcpservers</RepositoryUrl>
 
     <ApplicationIcon>../../resources/icon.ico</ApplicationIcon>
-    <Copyright>Copyright © 2025 Stef Heyenrath</Copyright>
+    <Copyright>Copyright © Stef Heyenrath</Copyright>
     <Authors>Stef Heyenrath</Authors>
     <PackageIcon>icon.png</PackageIcon>
   </PropertyGroup>
@@ -29,6 +29,6 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Stef.Validation" Version="0.2.0" />
-    <PackageReference Include="ModelContextProtocol" Version="0.2.0-preview.3" />
+    <PackageReference Include="ModelContextProtocol" Version="0.3.0-preview.1" />
   </ItemGroup>
 </Project>
