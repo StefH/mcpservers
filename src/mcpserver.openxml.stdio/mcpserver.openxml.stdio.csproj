@@ -7,7 +7,11 @@
     <OutputType>Exe</OutputType>
     <TargetFramework>net8.0</TargetFramework>
     <IsPackable>true</IsPackable>
+
+    <!-- Set up the NuGet package to be an MCP server -->
     <PackAsTool>true</PackAsTool>
+    <PackageType>McpServer</PackageType>
+
     <!--<PackageReleaseNotes>$([System.IO.File]::ReadAllText("$(MSBuildProjectDirectory)/../../PackageReleaseNotes.txt"))</PackageReleaseNotes>-->
     <PackageTags>MCP;ModelContextProtocol;AI;LLM;Server;Stdio;OpenXML;Word;docx</PackageTags>
     <Description>An Stdio MCP server as dotnet tool to extract text from a .docx file.</Description>
