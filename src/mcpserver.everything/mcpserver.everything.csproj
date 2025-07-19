@@ -36,14 +36,10 @@
     <PropertyGroup>
       <ServerJsonPath>$(MSBuildProjectDirectory)\.mcp\server.json</ServerJsonPath>
       <DirectoryBuildPropsPath>$(MSBuildProjectDirectory)\..\Directory.Build.props</DirectoryBuildPropsPath>
+      <UpdateScriptPath>$(MSBuildProjectDirectory)\..\Update-ServerJsonVersion.ps1</UpdateScriptPath>
     </PropertyGroup>
-    <Exec Command="pwsh -NoProfile -Command ^
-      $version = Select-String -Path '$(DirectoryBuildPropsPath)' -Pattern '&lt;Version&gt;(.*?)&lt;/Version&gt;' | ForEach-Object { $_.Matches[0].Groups[1].Value }; ^
-      $json = Get-Content '$(ServerJsonPath)' | Out-String | ConvertFrom-Json; ^
-      $json.packages[0].version = $version; ^
-      $json.version_detail.version = $version; ^
-      $json | ConvertTo-Json -Depth 10 | Set-Content '$(ServerJsonPath)';"
-      />
+
+    <Exec Command="pwsh -NoProfile -ExecutionPolicy Bypass -File &quot;$(UpdateScriptPath)&quot; -ServerJsonPath &quot;$(ServerJsonPath)&quot; -DirectoryBuildPropsPath &quot;$(DirectoryBuildPropsPath)&quot;" />
   </Target>
 
 </Project>
