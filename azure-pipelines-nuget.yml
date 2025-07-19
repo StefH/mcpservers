@@ -1,0 +1,44 @@
+pool:
+  vmImage: 'windows-2022'
+
+variables:
+  buildProjects: '**/src/**/*.csproj'
+
+steps:
+- task: UseDotNet@2
+  displayName: 'Use .NET 9'
+  inputs:
+    packageType: sdk
+    version: 9.0.x
+
+- task: DotNetCoreCLI@2
+  displayName: Build Release
+  inputs:
+    command: 'build'
+    arguments: /p:Configuration=Release
+    projects: $(buildProjects)
+
+- task: DotNetCoreCLI@2
+  displayName: Pack
+  condition: eq(variables['Build.Reason'], 'Manual')
+  inputs:
+    command: pack
+    configuration: 'Release'
+    packagesToPack: $(buildProjects)
+    nobuild: true
+    packDirectory: '$(Build.ArtifactStagingDirectory)/packages'
+    verbosityPack: 'normal'
+
+- task: PublishBuildArtifacts@1
+  displayName: Publish Artifacts
+  condition: eq(variables['Build.Reason'], 'Manual')
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+
+- task: DotNetCoreCLI@2
+  displayName: Push to NuGet
+  condition: eq(variables['Build.Reason'], 'Manual')
+  inputs:
+    command: custom
+    custom: nuget
+    arguments: push $(Build.ArtifactStagingDirectory)\packages\*.nupkg -n -s https://api.nuget.org/v3/index.json -k $(NuGetKey) --skip-duplicate
