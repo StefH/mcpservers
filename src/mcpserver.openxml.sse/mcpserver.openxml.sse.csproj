@@ -15,6 +15,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Include=".mcp\server.json">
+      <PackagePath>/.mcp/</PackagePath>
+      <Pack>true</Pack>
+    </None>
     <None Include="PackageReadme.md" Pack="true" PackagePath="" />
   </ItemGroup>
 
@@ -27,5 +31,15 @@
     <PackageReference Include="DocumentFormat.OpenXml" Version="3.3.0" />
     <ProjectReference Include="..\ModelContextProtocolServer.Sse\ModelContextProtocolServer.Sse.csproj" />
   </ItemGroup>
+
+  <Target Name="UpdateServerJsonVersion" BeforeTargets="BeforeBuild">
+    <PropertyGroup>
+      <ServerJsonPath>$(MSBuildProjectDirectory)\.mcp\server.json</ServerJsonPath>
+      <DirectoryBuildPropsPath>$(MSBuildProjectDirectory)\..\Directory.Build.props</DirectoryBuildPropsPath>
+      <UpdateScriptPath>$(MSBuildProjectDirectory)\..\Update-ServerJsonVersion.ps1</UpdateScriptPath>
+    </PropertyGroup>
+
+    <Exec Command="pwsh -NoProfile -ExecutionPolicy Bypass -File &quot;$(UpdateScriptPath)&quot; -ServerJsonPath &quot;$(ServerJsonPath)&quot; -DirectoryBuildPropsPath &quot;$(DirectoryBuildPropsPath)&quot;" />
+  </Target>
 
 </Project>
