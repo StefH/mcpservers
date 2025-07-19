@@ -32,4 +32,18 @@
     <ProjectReference Include="..\ModelContextProtocolServer.Hybrid\ModelContextProtocolServer.Hybrid.csproj" />
   </ItemGroup>
 
+  <Target Name="UpdateServerJsonVersion" BeforeTargets="BeforeBuild">
+    <PropertyGroup>
+      <ServerJsonPath>$(MSBuildProjectDirectory)\.mcp\server.json</ServerJsonPath>
+      <DirectoryBuildPropsPath>$(MSBuildProjectDirectory)\..\Directory.Build.props</DirectoryBuildPropsPath>
+    </PropertyGroup>
+    <Exec Command="pwsh -NoProfile -Command ^
+      $version = Select-String -Path '$(DirectoryBuildPropsPath)' -Pattern '&lt;Version&gt;(.*?)&lt;/Version&gt;' | ForEach-Object { $_.Matches[0].Groups[1].Value }; ^
+      $json = Get-Content '$(ServerJsonPath)' | Out-String | ConvertFrom-Json; ^
+      $json.packages[0].version = $version; ^
+      $json.version_detail.version = $version; ^
+      $json | ConvertTo-Json -Depth 10 | Set-Content '$(ServerJsonPath)';"
+      />
+  </Target>
+
 </Project>
