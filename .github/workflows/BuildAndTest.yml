@@ -18,6 +18,12 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
+  
+    - name: Setup .NET 10 Preview 6 SDK
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '10.0.100-preview.6'
+        include-prerelease: true
 
     - name: 'Build'
       run: dotnet build 'mcpservers - Solution.sln' -c Release
