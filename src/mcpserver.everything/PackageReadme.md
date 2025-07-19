@@ -7,7 +7,7 @@ A hybrid (Stdio and SSE) MCP server as dotnet tool with some features of the MCP
 ## `dnx`
 
 ``` cmd
-dnx 
+dnx mcpserver.everything --yes
 ```
 
 ## `dotnet tool`
