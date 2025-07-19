@@ -1,5 +1,6 @@
 <Project>
   <PropertyGroup>
+    <Version>0.3.0</Version>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <LangVersion>latest</LangVersion>
@@ -29,6 +30,5 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Stef.Validation" Version="0.2.0" />
-    <PackageReference Include="ModelContextProtocol" Version="0.3.0-preview.1" />
   </ItemGroup>
 </Project>

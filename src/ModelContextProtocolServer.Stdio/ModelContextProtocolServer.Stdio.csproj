@@ -1,7 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <Version>0.3.0-preview-01</Version>
     <TargetFramework>net8.0</TargetFramework>
     <!--<PackageReleaseNotes>$([System.IO.File]::ReadAllText("$(MSBuildProjectDirectory)/../../PackageReleaseNotes.txt"))</PackageReleaseNotes>-->
     <PackageTags>MCP;ModelContextProtocol;AI;LLM;Server;Stdio</PackageTags>
@@ -14,6 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="ModelContextProtocol" Version="0.3.0-preview.3" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.1" />
     <PackageReference Include="Serilog.Extensions.Logging" Version="9.0.1" />
     <PackageReference Include="Serilog.Sinks.File" Version="6.0.0" />
