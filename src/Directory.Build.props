@@ -1,6 +1,6 @@
 <Project>
   <PropertyGroup>
-    <Version>0.4.0-preview-04</Version>
+    <Version>0.4.0-preview-05</Version>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <LangVersion>latest</LangVersion>
