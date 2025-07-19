@@ -1,0 +1,34 @@
+{
+  "$schema": "https://modelcontextprotocol.io/schemas/draft/2025-07-09/server.json",
+  "description": "A hybrid (Sse and Stdio) MCP server with some features of the MCP protocol: Echo, Add and AddComplex.",
+  "name": "io.github.StefH/mcpservers",
+  "packages": [
+    {
+      "registry_name": "nuget",
+      "name": "mcpserver.everything",
+      "version": "0.4.0-preview-01",
+      "package_arguments": [
+        {
+          "name": "--stdio",
+          "description": "Run this MCP server as STDIO",
+          "is_required": true,
+          "is_secret": false
+        },
+        {
+          "name": "--sse",
+          "description": "Run this MCP server as SSE",
+          "is_required": true,
+          "is_secret": false
+        }
+      ],
+      "environment_variables": []
+    }
+  ],
+  "repository": {
+    "url": "https://github.com/StefH/mcpservers",
+    "source": "github"
+  },
+  "version_detail": {
+    "version": "0.4.0-preview-01"
+  }
+}
