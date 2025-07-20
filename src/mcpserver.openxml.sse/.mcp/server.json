@@ -6,7 +6,7 @@
     {
       "registry_name": "nuget",
       "name": "mcpserver.openxml.sse",
-      "version": "0.4.0-preview-04",
+      "version": "0.4.0-preview-05",
       "package_arguments": [],
       "environment_variables": []
     }
@@ -16,6 +16,6 @@
     "source": "github"
   },
   "version_detail": {
-    "version": "0.4.0-preview-04"
+    "version": "0.4.0-preview-05"
   }
 }
