@@ -7,7 +7,11 @@
     <OutputType>Exe</OutputType>
     <TargetFramework>net8.0</TargetFramework>
     <IsPackable>true</IsPackable>
+    
+    <!-- Set up the NuGet package to be an MCP server -->
     <PackAsTool>true</PackAsTool>
+    <PackageType>McpServer</PackageType>
+
     <!--<PackageReleaseNotes>$([System.IO.File]::ReadAllText("$(MSBuildProjectDirectory)/../../PackageReleaseNotes.txt"))</PackageReleaseNotes>-->
     <PackageTags>MCP;ModelContextProtocol;AI;LLM;Server;Stdio;Everything;echo;add</PackageTags>
     <Description>A Stdio MCP server as dotnet tool with some features of the MCP protocol: echo and add.</Description>
@@ -15,11 +19,25 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Include=".mcp\server.json">
+      <PackagePath>/.mcp/</PackagePath>
+      <Pack>true</Pack>
+    </None>
     <None Include="PackageReadme.md" Pack="true" PackagePath="" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\ModelContextProtocolServer.Stdio\ModelContextProtocolServer.Stdio.csproj" />
   </ItemGroup>
+
+  <Target Name="UpdateServerJsonVersion" BeforeTargets="BeforeBuild">
+    <PropertyGroup>
+      <ServerJsonPath>$(MSBuildProjectDirectory)\.mcp\server.json</ServerJsonPath>
+      <DirectoryBuildPropsPath>$(MSBuildProjectDirectory)\..\Directory.Build.props</DirectoryBuildPropsPath>
+      <UpdateScriptPath>$(MSBuildProjectDirectory)\..\Update-ServerJsonVersion.ps1</UpdateScriptPath>
+    </PropertyGroup>
+
+    <Exec Command="pwsh -NoProfile -ExecutionPolicy Bypass -File &quot;$(UpdateScriptPath)&quot; -ServerJsonPath &quot;$(ServerJsonPath)&quot; -DirectoryBuildPropsPath &quot;$(DirectoryBuildPropsPath)&quot;" />
+  </Target>
 
 </Project>

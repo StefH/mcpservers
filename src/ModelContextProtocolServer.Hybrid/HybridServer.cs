@@ -23,16 +23,11 @@ public static class HybridServer
 
     public static Task RunAsync(string applicationName, string version, Action<IServiceCollection> servicesAction, params string[] args)
     {
-        if (args.Contains("--stdio"))
-        {
-            return StdioServer.RunAsync(applicationName, version, servicesAction, args);
-        }
-
         if (args.Contains("--sse"))
         {
             return SseServer.RunAsync(applicationName, version, servicesAction, args);
         }
 
-        throw new ArgumentException("The argument '--stdio' or '--sse' should be provided.");
+        return StdioServer.RunAsync(applicationName, version, servicesAction, args);
     }
 }

@@ -1,15 +1,21 @@
-﻿## mcpserver.everything.stdio
+﻿# mcpserver.everything.stdio
 A Stdio MCP server as dotnet tool with some features of the MCP protocol: 
 - Echo
 - Add
 - AddComplex
 
+## `dnx`
+``` cmd
+dnx mcpserver.everything.stdio --yes
+```
+
+## `dotnet tool`
 ### Installation
 ``` cmd
 dotnet tool install --global mcpserver.everything.stdio
 ```
 
-### Sponsors
+## Sponsors
 
 [Entity Framework Extensions](https://entityframework-extensions.net/?utm_source=StefH) and [Dapper Plus](https://dapper-plus.net/?utm_source=StefH) are major sponsors and proud to contribute to the development of **mcpserver.everything.stdio**.
 
