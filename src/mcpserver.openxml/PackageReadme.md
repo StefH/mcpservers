@@ -1,12 +1,18 @@
-﻿## mcpserver.openxml
+﻿# mcpserver.openxml
 An Stdio or Sse MCP server as dotnet tool for reading .docx files.
 
+## `dnx`
+``` cmd
+dnx mcpserver.openxml --yes
+```
+
+## `dotnet tool`
 ### Installation
 ``` cmd
 dotnet tool install --global mcpserver.openxml
 ```
 
-### Sponsors
+## Sponsors
 
 [Entity Framework Extensions](https://entityframework-extensions.net/?utm_source=StefH) and [Dapper Plus](https://dapper-plus.net/?utm_source=StefH) are major sponsors and proud to contribute to the development of **mcpserver.openxml**.
 

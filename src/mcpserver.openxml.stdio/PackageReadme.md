@@ -1,6 +1,12 @@
-﻿## mcpserver.openxml.stdio
+﻿# mcpserver.openxml.stdio
 An Stdio MCP server as dotnet tool for reading .docx files.
 
+## `dnx`
+``` cmd
+dnx mcpserver.openxml.stdio --yes
+```
+
+## `dotnet tool`
 ### Installation
 ``` cmd
 dotnet tool install --global mcpserver.openxml.stdio

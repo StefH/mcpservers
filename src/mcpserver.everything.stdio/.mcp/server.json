@@ -1,0 +1,21 @@
+{
+  "$schema": "https://modelcontextprotocol.io/schemas/draft/2025-07-09/server.json",
+  "description": "A Stdio MCP server with some features of the MCP protocol: Echo, Add and AddComplex.",
+  "name": "io.github.StefH/mcpservers",
+  "packages": [
+    {
+      "registry_name": "nuget",
+      "name": "mcpserver.everything.stdio",
+      "version": "0.4.0-preview-06",
+      "package_arguments": [],
+      "environment_variables": []
+    }
+  ],
+  "repository": {
+    "url": "https://github.com/StefH/mcpservers",
+    "source": "github"
+  },
+  "version_detail": {
+    "version": "0.4.0-preview-06"
+  }
+}

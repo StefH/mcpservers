@@ -1,0 +1,32 @@
+{
+  "$schema": "https://modelcontextprotocol.io/schemas/draft/2025-07-09/server.json",
+  "description": "A Stdio MCP server as dotnet tool for reading .docx files.",
+  "name": "io.github.StefH/mcpservers",
+  "packages": [
+    {
+      "registry_name": "nuget",
+      "name": "mcpserver.openxml.stdio",
+      "version": "0.4.0-preview-06",
+      "package_arguments": [
+        {
+          "type": "named",
+          "name": "--allowedPath",
+          "description": "The path which is allowed to read the .docx files"
+        }
+      ],
+      "environment_variables": [
+        {
+          "name": "allowedPath",
+          "description": "The path which is allowed to read the .docx files"
+        }
+      ]
+    }
+  ],
+  "repository": {
+    "url": "https://github.com/StefH/mcpservers",
+    "source": "github"
+  },
+  "version_detail": {
+    "version": "0.4.0-preview-06"
+  }
+}
