@@ -6,7 +6,7 @@
     {
       "registry_name": "nuget",
       "name": "mcpserver.openxml.stdio",
-      "version": "0.4.0-preview-06",
+      "version": "0.4.0",
       "package_arguments": [
         {
           "type": "named",
@@ -27,6 +27,6 @@
     "source": "github"
   },
   "version_detail": {
-    "version": "0.4.0-preview-06"
+    "version": "0.4.0"
   }
 }
