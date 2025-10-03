@@ -111,16 +111,16 @@ internal class McpClientCommand : AsyncCommand<McpClientCommand.Settings>
         }
         else
         {
-            var sseOptions = new SseClientTransportOptions
+            var sseOptions = new HttpClientTransportOptions
             {
                 Endpoint = settings.Location != null ? new Uri(settings.Location) : throw new ArgumentException(nameof(settings.Location)),
                 // AdditionalHeaders = TODO
                 Name = name
             };
-            clientTransport = new SseClientTransport(sseOptions, loggerFactory);
+            clientTransport = new HttpClientTransport(sseOptions, loggerFactory);
         }
 
-        var client = await McpClientFactory.CreateAsync(clientTransport, clientOptions, loggerFactory: loggerFactory);
+        var client = await McpClient.CreateAsync(clientTransport, clientOptions, loggerFactory: loggerFactory);
         client.DisposeAsyncOnApplicationExit();
 
         var tools = await client.ListToolsAsync();

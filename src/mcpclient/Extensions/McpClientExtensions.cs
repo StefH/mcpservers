@@ -2,7 +2,7 @@
 
 internal static class McpClientExtensions
 {
-    public static void DisposeAsyncOnApplicationExit(this IMcpClient client)
+    public static void DisposeAsyncOnApplicationExit(this McpClient client)
     {
         Console.CancelKeyPress += (sender, e) =>
         {
@@ -16,7 +16,7 @@ internal static class McpClientExtensions
         };
     }
 
-    private static void DisposeAsync(IMcpClient client)
+    private static void DisposeAsync(McpClient client)
     {
         client.DisposeAsync().GetAwaiter().GetResult();
         Thread.Sleep(100);
