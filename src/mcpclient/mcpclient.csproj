@@ -6,6 +6,7 @@
     <RootNamespace>ModelContextProtocol.Client</RootNamespace>
     <OutputType>Exe</OutputType>
     <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
     <IsPackable>true</IsPackable>
     <PackAsTool>true</PackAsTool>
     <!--<PackageReleaseNotes>$([System.IO.File]::ReadAllText("$(MSBuildProjectDirectory)/../../PackageReleaseNotes.txt"))</PackageReleaseNotes>-->

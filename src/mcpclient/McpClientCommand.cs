@@ -66,7 +66,7 @@ internal class McpClientCommand : AsyncCommand<McpClientCommand.Settings>
         }
     }
 
-    public override async Task<int> ExecuteAsync(CommandContext context, Settings settings)
+    public override async Task<int> ExecuteAsync(CommandContext context, Settings settings, CancellationToken cancellationToken)
     {
         var assembly = Assembly.GetEntryAssembly();
         var applicationName = assembly?.GetCustomAttribute<AssemblyTitleAttribute>()?.Title ?? $"mcpclient.{Guid.NewGuid()}";
@@ -120,10 +120,10 @@ internal class McpClientCommand : AsyncCommand<McpClientCommand.Settings>
             clientTransport = new HttpClientTransport(sseOptions, loggerFactory);
         }
 
-        var client = await McpClient.CreateAsync(clientTransport, clientOptions, loggerFactory: loggerFactory);
+        var client = await McpClient.CreateAsync(clientTransport, clientOptions, loggerFactory: loggerFactory, cancellationToken: cancellationToken);
         client.DisposeAsyncOnApplicationExit();
 
-        var tools = await client.ListToolsAsync();
+        var tools = await client.ListToolsAsync(cancellationToken: cancellationToken);
         var prompts = tools
             .OrderBy(t => t.Name)
             .Select(t => new MenuItem($"{t.Name} ({t.Description})", t)).ToList();
@@ -147,7 +147,7 @@ internal class McpClientCommand : AsyncCommand<McpClientCommand.Settings>
 
             var inputSchema = tool!.JsonSchema.Deserialize<JsonSchema>();
             var arguments = ArgumentUtils.GetArgumentValues(0, inputSchema?.Properties, inputSchema?.Required);
-            var result = await tool.InvokeAsync(arguments);
+            var result = await tool.InvokeAsync(arguments, cancellationToken);
             var text = ((JsonElement)result!).GetProperty("content")[0].GetProperty("text").GetString();
 
             AnsiConsole.WriteLine();
