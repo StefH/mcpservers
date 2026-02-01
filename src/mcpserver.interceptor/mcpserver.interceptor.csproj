@@ -1,0 +1,61 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <Version>0.0.1</Version>
+    <PackageId>mcpserver.interceptor</PackageId>
+    <ToolCommandName>mcpserver.interceptor</ToolCommandName>
+    <RootNamespace>ModelContextProtocolServer.Interceptor</RootNamespace>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <IsPackable>true</IsPackable>
+
+    <!-- Set up the NuGet package to be an MCP server -->
+    <PackAsTool>true</PackAsTool>
+    <PackageType>McpServer</PackageType>
+
+    <!--<PackageReleaseNotes>$([System.IO.File]::ReadAllText("$(MSBuildProjectDirectory)/../../PackageReleaseNotes.txt"))</PackageReleaseNotes>-->
+    <PackageTags>MCP;ModelContextProtocol;AI;LLM;Server;Stdio;intercept</PackageTags>
+    <Description>A hybrid (Sse and Stdio) MCP server as dotnet tool which can intercept calls.</Description>
+    <PackageReadmeFile>PackageReadme.md</PackageReadmeFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Properties\launchSettings.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="..\ModelContextProtocolServer.Stdio\LoggerHelper.cs" Link="LoggerHelper.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Properties\launchSettings.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include=".mcp\server.json" Pack="true" PackagePath="/.mcp/" />
+    <None Include="PackageReadme.md" Pack="true" PackagePath="" />
+  </ItemGroup>
+
+  <!--<ItemGroup>
+    <ProjectReference Include="..\ModelContextProtocolServer.Hybrid\ModelContextProtocolServer.Hybrid.csproj" />
+  </ItemGroup>-->
+
+  <ItemGroup>
+    <PackageReference Include="ModelContextProtocol" Version="0.7.0-preview.1" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.1" />
+    <PackageReference Include="Serilog.Extensions.Logging" Version="9.0.1" />
+    <PackageReference Include="Serilog.Sinks.File" Version="6.0.0" />
+    <PackageReference Include="Spectre.Console.Cli" Version="0.53.1" />
+  </ItemGroup>
+
+  <Target Name="UpdateServerJsonVersion" BeforeTargets="BeforeBuild">
+    <PropertyGroup>
+      <ServerJsonPath>$(MSBuildProjectDirectory)\.mcp\server.json</ServerJsonPath>
+      <DirectoryBuildPropsPath>$(MSBuildProjectDirectory)\..\Directory.Build.props</DirectoryBuildPropsPath>
+      <UpdateScriptPath>$(MSBuildProjectDirectory)\..\Update-ServerJsonVersion.ps1</UpdateScriptPath>
+    </PropertyGroup>
+
+    <Exec Command="pwsh -NoProfile -ExecutionPolicy Bypass -File &quot;$(UpdateScriptPath)&quot; -ServerJsonPath &quot;$(ServerJsonPath)&quot; -DirectoryBuildPropsPath &quot;$(DirectoryBuildPropsPath)&quot;" />
+  </Target>
+
+</Project>
