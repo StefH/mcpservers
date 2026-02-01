@@ -15,7 +15,7 @@
 
     <!--<PackageReleaseNotes>$([System.IO.File]::ReadAllText("$(MSBuildProjectDirectory)/../../PackageReleaseNotes.txt"))</PackageReleaseNotes>-->
     <PackageTags>MCP;ModelContextProtocol;AI;LLM;Server;Stdio;intercept</PackageTags>
-    <Description>A hybrid (Sse and Stdio) MCP server as dotnet tool which can intercept tool-calls.</Description>
+    <Description>A Stdio MCP server as dotnet tool which can intercept tool-calls.</Description>
     <PackageReadmeFile>PackageReadme.md</PackageReadmeFile>
   </PropertyGroup>
 

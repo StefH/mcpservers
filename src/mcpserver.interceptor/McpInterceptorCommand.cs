@@ -19,7 +19,7 @@ internal sealed class McpInterceptorCommand : AsyncCommand<McpInterceptorCommand
         [DefaultValue("console")]
         public required string Logger { get; init; }
 
-        [CommandOption("-s|--serverName", true)]
+        [CommandOption("-s|--serverName")]
         [Description("MCP Server Name")]
         public required string Servername { get; init; }
 
@@ -35,6 +35,11 @@ internal sealed class McpInterceptorCommand : AsyncCommand<McpInterceptorCommand
 
         public override ValidationResult Validate()
         {
+            //if (!System.Diagnostics.Debugger.IsAttached)
+            //{
+            //    System.Diagnostics.Debugger.Launch();
+            //}
+
             if (Logger != "console" && Logger != "null")
             {
                 return ValidationResult.Error("The logger should be 'console' or 'null'.");
@@ -67,11 +72,6 @@ internal sealed class McpInterceptorCommand : AsyncCommand<McpInterceptorCommand
                     EnvironmentVariables[e.name] = e.value;
                 }
             }
-
-            //if (!System.Diagnostics.Debugger.IsAttached)
-            //{
-            //    System.Diagnostics.Debugger.Launch();
-            //}
 
             return ValidationResult.Success();
         }
