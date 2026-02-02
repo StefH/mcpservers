@@ -13,6 +13,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		azure-pipelines-nuget.yml = azure-pipelines-nuget.yml
 		README.md = README.md
 		ReleaseNotes.md = ReleaseNotes.md
+		src\Update-ServerJsonVersion.ps1 = src\Update-ServerJsonVersion.ps1
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{CEFF40B4-4435-408E-B0B9-F93903A8B470}"
@@ -49,6 +50,8 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "examples", "examples", "{1E1B5811-2796-4FA0-9827-17DB9B7707A2}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModelContextProtocol-SemanticKernel.Stdio.Example", "example\ModelContextProtocol-SemanticKernel.Stdio.Example\ModelContextProtocol-SemanticKernel.Stdio.Example.csproj", "{4FBB63F2-7645-31A3-A9E1-9E953FFB5059}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModelContextProtocol-SemanticKernel", "..\McpDotNet.Extensions.SemanticKernel\src\ModelContextProtocol-SemanticKernel\ModelContextProtocol-SemanticKernel.csproj", "{0B1DEE27-A8E7-70DB-93E0-23776C473E26}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -104,6 +107,10 @@ Global
 		{4FBB63F2-7645-31A3-A9E1-9E953FFB5059}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4FBB63F2-7645-31A3-A9E1-9E953FFB5059}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4FBB63F2-7645-31A3-A9E1-9E953FFB5059}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0B1DEE27-A8E7-70DB-93E0-23776C473E26}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0B1DEE27-A8E7-70DB-93E0-23776C473E26}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0B1DEE27-A8E7-70DB-93E0-23776C473E26}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0B1DEE27-A8E7-70DB-93E0-23776C473E26}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -121,6 +128,7 @@ Global
 		{61AA0B6A-7B05-FD2B-B1B3-B98A62B8C208} = {1E1B5811-2796-4FA0-9827-17DB9B7707A2}
 		{C5BA8B03-BB2E-9FF9-72E0-C30F8A255084} = {94D1D405-E9C2-4FB3-A220-1E5C4AB2C2B4}
 		{4FBB63F2-7645-31A3-A9E1-9E953FFB5059} = {1E1B5811-2796-4FA0-9827-17DB9B7707A2}
+		{0B1DEE27-A8E7-70DB-93E0-23776C473E26} = {1E1B5811-2796-4FA0-9827-17DB9B7707A2}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {45F31459-D6F5-441C-890A-F02A1328053D}

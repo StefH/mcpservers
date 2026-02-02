@@ -3,15 +3,15 @@ param(
     [string]$ServerJsonPath,
     
     [Parameter(Mandatory = $true)]
-    [string]$DirectoryBuildPropsPath
+    [string]$VersionFile
 )
 
 # Extract version from Directory.Build.props
-$version = Select-String -Path $DirectoryBuildPropsPath -Pattern '<Version>(.*?)</Version>' | 
+$version = Select-String -Path $VersionFile -Pattern '<Version>(.*?)</Version>' | 
     ForEach-Object { $_.Matches[0].Groups[1].Value }
 
 if (-not $version) {
-    Write-Error "Could not find version in $DirectoryBuildPropsPath"
+    Write-Error "Could not find version in $VersionFile"
     exit 1
 }
 

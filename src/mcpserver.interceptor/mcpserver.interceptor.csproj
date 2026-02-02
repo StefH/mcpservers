@@ -39,11 +39,11 @@
   <Target Name="UpdateServerJsonVersion" BeforeTargets="BeforeBuild">
     <PropertyGroup>
       <ServerJsonPath>$(MSBuildProjectDirectory)\.mcp\server.json</ServerJsonPath>
-      <DirectoryBuildPropsPath>$(MSBuildProjectDirectory)\..\Directory.Build.props</DirectoryBuildPropsPath>
+      <VersionFile>$(MSBuildProjectDirectory)\..\Directory.Build.props</VersionFile>
       <UpdateScriptPath>$(MSBuildProjectDirectory)\..\Update-ServerJsonVersion.ps1</UpdateScriptPath>
     </PropertyGroup>
 
-    <Exec Command="pwsh -NoProfile -ExecutionPolicy Bypass -File &quot;$(UpdateScriptPath)&quot; -ServerJsonPath &quot;$(ServerJsonPath)&quot; -DirectoryBuildPropsPath &quot;$(DirectoryBuildPropsPath)&quot;" />
+    <Exec Command="pwsh -NoProfile -ExecutionPolicy Bypass -File &quot;$(UpdateScriptPath)&quot; -ServerJsonPath &quot;$(ServerJsonPath)&quot; -VersionFile &quot;$(VersionFile)&quot;" />
   </Target>
 
 </Project>
