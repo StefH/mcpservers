@@ -1,9 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Reflection;
-using ModelContextProtocol;
 using ModelContextProtocol.Client;
 using ModelContextProtocol.Protocol;
-using ModelContextProtocol.Server;
 using ModelContextProtocolServer.Stdio;
 using Spectre.Console;
 using Spectre.Console.Cli;
@@ -27,18 +25,22 @@ internal sealed class McpInterceptorCommand : AsyncCommand<McpInterceptorCommand
         [Description("MCP Server Command with Arguments (stdio only)")]
         public required string CommandWithArguments { get; init; }
 
+        [CommandOption("-e|--env")]
+        [Description("MCP Server Environment variables (stdio only)")]
+        public string[] EnvironmentVariables { get; init; } = [];
+
         public string Command { get; private set; } = null!;
 
         public string[] Arguments { get; private set; } = [];
 
-        public Dictionary<string, string?> EnvironmentVariables { get; private set; } = [];
+        public Dictionary<string, string?> EnvironmentVariablesAsDictionary { get; private set; } = [];
 
         public override ValidationResult Validate()
         {
-            //if (!System.Diagnostics.Debugger.IsAttached)
-            //{
-            //    System.Diagnostics.Debugger.Launch();
-            //}
+            if (!System.Diagnostics.Debugger.IsAttached)
+            {
+                System.Diagnostics.Debugger.Launch();
+            }
 
             if (Logger != "console" && Logger != "null")
             {
@@ -67,9 +69,18 @@ internal sealed class McpInterceptorCommand : AsyncCommand<McpInterceptorCommand
                 }
 
                 var environmentVariables = commandWithArguments.Skip(1).Where(a => a.StartsWith("env:")).ToArray();
-                foreach (var e in environmentVariables.Select(e => e.Split("=")).Select(x => new { name = x[0], value = x[1] }))
+                foreach (var e in environmentVariables.Select(e => e.Split('=', 2)).Select(x => new { name = x[0], value = x[1] }))
                 {
-                    EnvironmentVariables[e.name] = e.value;
+                    EnvironmentVariablesAsDictionary[e.name] = e.value;
+                }
+
+                foreach (var e in EnvironmentVariables)
+                {
+                    var parts = e.Split('=', 2);
+                    if (parts.Length == 2)
+                    {
+                        EnvironmentVariablesAsDictionary[parts[0]] = parts[1];
+                    }
                 }
             }
 
@@ -94,7 +105,7 @@ internal sealed class McpInterceptorCommand : AsyncCommand<McpInterceptorCommand
         {
             Command = settings.Command,
             Arguments = settings.Arguments,
-            EnvironmentVariables = settings.EnvironmentVariables,
+            EnvironmentVariables = settings.EnvironmentVariablesAsDictionary,
             Name = name
         };
 
@@ -110,8 +121,9 @@ internal sealed class McpInterceptorCommand : AsyncCommand<McpInterceptorCommand
         };
 
         var loggerFactory = LoggerHelper.CreateLoggerFactory(name);
+        var logger = loggerFactory.CreateLogger<McpInterceptorCommand>();
 
-        var client = await McpClient.CreateAsync(clientTransport, clientOptions, loggerFactory: loggerFactory, cancellationToken: cancellationToken);
+        var client = await McpClient.CreateAsync(clientTransport, clientOptions, loggerFactory, cancellationToken);
 
         builder.Configuration
             .AddCommandLine(settings.Arguments)
@@ -127,35 +139,7 @@ internal sealed class McpInterceptorCommand : AsyncCommand<McpInterceptorCommand
                     Version = version
                 };
 
-                o.Handlers = new McpServerHandlers
-                {
-                    ListToolsHandler = async (request, cancellationToken) =>
-                    {
-                        var tools = await client.ListToolsAsync(cancellationToken: cancellationToken);
-
-                        return new ListToolsResult
-                        {
-                            Tools = tools.Select(t => new Tool
-                            {
-                                Name = t.Name,
-                                Title = t.Title,
-                                Description = t.Description,
-                                InputSchema = t.JsonSchema,
-                                OutputSchema = t.ReturnJsonSchema
-                            }).ToList()
-                        };
-                    },
-
-                    CallToolHandler = async (request, cancellationToken) =>
-                    {
-                        if (request.Params?.Name == null)
-                        {
-                            throw new McpProtocolException("Missing required parameter 'name'", McpErrorCode.InvalidParams);
-                        }
-
-                        return await client.CallToolAsync(request.Params, cancellationToken);
-                    }
-                };
+                o.Handlers = new HandlersBuilder(logger, client).Build();
             }
         )
         .WithStdioServerTransport();
