@@ -39,7 +39,7 @@
   <Target Name="UpdateServerJsonVersion" BeforeTargets="BeforeBuild">
     <PropertyGroup>
       <ServerJsonPath>$(MSBuildProjectDirectory)\.mcp\server.json</ServerJsonPath>
-      <VersionFile>$(MSBuildProjectDirectory)\..\Directory.Build.props</VersionFile>
+      <VersionFile>$(MSBuildProjectDirectory)\mcpserver.interceptor.csproj</VersionFile>
       <UpdateScriptPath>$(MSBuildProjectDirectory)\..\Update-ServerJsonVersion.ps1</UpdateScriptPath>
     </PropertyGroup>
 

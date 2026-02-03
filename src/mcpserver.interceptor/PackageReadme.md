@@ -1,34 +1,22 @@
-﻿# mcpserver.everything
-A hybrid (Stdio and SSE) MCP server as dotnet tool with some features of the MCP protocol: 
-- Echo
-- Add
-- AddComplex
-
-## `dnx`
-
-``` cmd
-dnx mcpserver.everything --yes
-```
+﻿# mcpserver.interceptor
+A Stdio MCP server as dotnet tool (or dnx) which can be used as an interceptor for another MCP server.
+All tool calls requests and responses are logged to file.
 
 ## `dotnet tool`
 
 ### Installation
 ``` cmd
-dotnet tool install --global mcpserver.everything
+dotnet tool install --global mcpserver.interceptor
 ```
 
-### Usage
+## Usage
 
-#### Start as Stdio
+### Start
+
+The next command will start the interceptor which will forward all requests to the `mcpserver.everything.stdio` server.
 ``` ps
-mcpserver.everything --stdio
+dnx mcpserver.interceptor --yes --serverName=Everything --command=dnx mcpserver.everything.stdio@0.7.0-preview-01 --yes
 ```
-
-##### Start as Sse
-``` ps
-mcpserver.everything --sse
-```
-
 
 ## Sponsors
 
