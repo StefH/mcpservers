@@ -28,8 +28,8 @@ await kernel.Plugins.AddMcpFunctionsFromStdioServerAsync(
         "--project",
         @"C:\dev\GitHub\mcpservers\src\mcpserver.interceptor\mcpserver.interceptor.csproj",
         "--serverName=Everything",
-        //"--command=dnx mcpserver.everything.stdio --yes"
-        @"--command=dotnet run --project C:\dev\GitHub\mcpservers\src\mcpserver.everything.stdio\mcpserver.everything.stdio.csproj"
+        "--command=dnx mcpserver.everything.stdio@0.7.0-preview-01 --yes"
+        //@"--command=dotnet run --project C:\dev\GitHub\mcpservers\src\mcpserver.everything.stdio\mcpserver.everything.stdio.csproj"
     ],
     cancellationToken: cts.Token);
 

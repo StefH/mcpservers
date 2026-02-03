@@ -37,10 +37,12 @@ internal sealed class McpInterceptorCommand : AsyncCommand<McpInterceptorCommand
 
         public override ValidationResult Validate()
         {
+#if DebugAttach
             if (!System.Diagnostics.Debugger.IsAttached)
             {
                 System.Diagnostics.Debugger.Launch();
             }
+#endif
 
             if (Logger != "console" && Logger != "null")
             {
