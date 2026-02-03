@@ -1,6 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
+    <Version>0.7.0</Version>
     <PackageId>mcpserver.openxml.stdio</PackageId>
     <ToolCommandName>mcpserver.openxml.stdio</ToolCommandName>
     <RootNamespace>ModelContextProtocolServer.OpenXml.Stdio</RootNamespace>
