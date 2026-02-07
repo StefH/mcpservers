@@ -42,11 +42,11 @@ internal static class WordDocumentReader
         // For some reason, for some documents, we need to read twice.
         try
         {
-            return main.Document.Body;
+            return main?.Document?.Body;
         }
         catch
         {
-            return main.Document.Body;
+            return main?.Document?.Body;
         }
     }
 

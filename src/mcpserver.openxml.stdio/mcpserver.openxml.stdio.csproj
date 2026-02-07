@@ -1,6 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
+    <Version>0.7.0</Version>
     <PackageId>mcpserver.openxml.stdio</PackageId>
     <ToolCommandName>mcpserver.openxml.stdio</ToolCommandName>
     <RootNamespace>ModelContextProtocolServer.OpenXml.Stdio</RootNamespace>
@@ -27,7 +28,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="DocumentFormat.OpenXml" Version="3.3.0" />
+    <PackageReference Include="DocumentFormat.OpenXml" Version="3.4.1" />
   </ItemGroup>
 
   <ItemGroup>
@@ -37,11 +38,11 @@
   <Target Name="UpdateServerJsonVersion" BeforeTargets="BeforeBuild">
     <PropertyGroup>
       <ServerJsonPath>$(MSBuildProjectDirectory)\.mcp\server.json</ServerJsonPath>
-      <DirectoryBuildPropsPath>$(MSBuildProjectDirectory)\..\Directory.Build.props</DirectoryBuildPropsPath>
+      <VersionFile>$(MSBuildProjectDirectory)\..\Directory.Build.props</VersionFile>
       <UpdateScriptPath>$(MSBuildProjectDirectory)\..\Update-ServerJsonVersion.ps1</UpdateScriptPath>
     </PropertyGroup>
 
-    <Exec Command="pwsh -NoProfile -ExecutionPolicy Bypass -File &quot;$(UpdateScriptPath)&quot; -ServerJsonPath &quot;$(ServerJsonPath)&quot; -DirectoryBuildPropsPath &quot;$(DirectoryBuildPropsPath)&quot;" />
+    <Exec Command="pwsh -NoProfile -ExecutionPolicy Bypass -File &quot;$(UpdateScriptPath)&quot; -ServerJsonPath &quot;$(ServerJsonPath)&quot; -VersionFile &quot;$(VersionFile)&quot;" />
   </Target>
 
 </Project>

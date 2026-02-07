@@ -20,10 +20,10 @@ public static class EverythingTools
         return $"The sum of {a} and {b} is {sum}.";
     }
 
-    [McpServerTool, Description("Adds two complex numbers")]
-    public static string AddComplex([Description("First complex number")] ComplexNumber complexA, [Description("Second complex number")] ComplexNumber complexB)
+    [McpServerTool(ReadOnly = true, UseStructuredContent = true)]
+    [Description("Adds two complex numbers")]
+    public static ComplexNumber AddComplex([Description("First complex number")] ComplexNumber complexA, [Description("Second complex number")] ComplexNumber complexB)
     {
-        var sum = new ComplexNumber(complexA.Real + complexB.Real, complexA.Imaginary + complexB.Imaginary);
-        return $"The sum of {complexA} and {complexB} is {sum}.";
+        return new ComplexNumber(complexA.Real + complexB.Real, complexA.Imaginary + complexB.Imaginary);
     }
 }

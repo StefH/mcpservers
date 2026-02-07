@@ -8,7 +8,8 @@ namespace ModelContextProtocolServer.OpenXml.Stdio.Tools;
 [McpServerToolType]
 public static class OpenXmlTools
 {
-    [McpServerTool, Description("Read a .docx file and return the content as plain text.")]
+    [McpServerTool(ReadOnly = true)]
+    [Description("Read a .docx file and return the content as plain text.")]
     public static string ReadWordDocument(IConfiguration config, string filename)
     {
         if (string.IsNullOrEmpty(filename))

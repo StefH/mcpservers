@@ -1,6 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
+    <Version>0.7.0-preview-01</Version>
     <PackageId>mcpserver.everything</PackageId>
     <ToolCommandName>mcpserver.everything</ToolCommandName>
     <RootNamespace>ModelContextProtocolServer.Everything</RootNamespace>
@@ -35,11 +36,11 @@
   <Target Name="UpdateServerJsonVersion" BeforeTargets="BeforeBuild">
     <PropertyGroup>
       <ServerJsonPath>$(MSBuildProjectDirectory)\.mcp\server.json</ServerJsonPath>
-      <DirectoryBuildPropsPath>$(MSBuildProjectDirectory)\..\Directory.Build.props</DirectoryBuildPropsPath>
+      <VersionFile>$(MSBuildProjectDirectory)\mcpserver.everything.csproj</VersionFile>
       <UpdateScriptPath>$(MSBuildProjectDirectory)\..\Update-ServerJsonVersion.ps1</UpdateScriptPath>
     </PropertyGroup>
 
-    <Exec Command="pwsh -NoProfile -ExecutionPolicy Bypass -File &quot;$(UpdateScriptPath)&quot; -ServerJsonPath &quot;$(ServerJsonPath)&quot; -DirectoryBuildPropsPath &quot;$(DirectoryBuildPropsPath)&quot;" />
+    <Exec Command="pwsh -NoProfile -ExecutionPolicy Bypass -File &quot;$(UpdateScriptPath)&quot; -ServerJsonPath &quot;$(ServerJsonPath)&quot; -VersionFile &quot;$(VersionFile)&quot;" />
   </Target>
 
 </Project>
