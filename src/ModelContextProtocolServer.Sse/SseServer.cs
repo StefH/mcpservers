@@ -12,10 +12,10 @@ public static class SseServer
 {
     public static Task RunAsync(params string[] args)
     {
-        return RunAsync(_ => { }, args);
+        return RunAsync((services, config) => { }, args);
     }
 
-    public static Task RunAsync(Action<IServiceCollection> servicesAction, params string[] args)
+    public static Task RunAsync(Action<IServiceCollection, IConfiguration> servicesAction, params string[] args)
     {
         var assembly = Assembly.GetEntryAssembly();
         var applicationName = assembly?.GetCustomAttribute<AssemblyTitleAttribute>()?.Title ?? $"mcpserver.{Guid.NewGuid()}.sse";
@@ -24,7 +24,7 @@ public static class SseServer
         return RunAsync(applicationName, version, servicesAction, args);
     }
 
-    public static Task RunAsync(string applicationName, string version, Action<IServiceCollection> servicesAction, params string[] args)
+    public static Task RunAsync(string applicationName, string version, Action<IServiceCollection, IConfiguration> servicesAction, params string[] args)
     {
         var builder = WebApplication.CreateBuilder(new WebApplicationOptions
         {
@@ -48,11 +48,11 @@ public static class SseServer
         })
         .AddMcp();
 
-        servicesAction(builder.Services);
-
         builder.Configuration
             .AddCommandLine(args)
             .AddEnvironmentVariables();
+
+        servicesAction(builder.Services, builder.Configuration);
 
         var app = builder.Build();
         app.MapMcp();

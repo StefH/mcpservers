@@ -10,16 +10,16 @@ public static class StdioServer
 {
     public static Task RunAsync(params string[] args)
     {
-        return RunAsync(_ => { }, args);
+        return RunAsync((services, config) => { }, args);
     }
 
     public static Task RunAsync(string applicationName, string version, params string[] args)
     {
-        return RunAsync(applicationName, version, _ => { }, args);
+        return RunAsync(applicationName, version, (services, config) => { }, args);
     }
 
-    public static Task RunAsync(Action<IServiceCollection> servicesAction, params string[] args)
-    {
+    public static Task RunAsync(Action<IServiceCollection, IConfiguration> servicesAction, params string[] args)
+    {   
         var assembly = Assembly.GetEntryAssembly();
         var applicationName = assembly?.GetCustomAttribute<AssemblyTitleAttribute>()?.Title ?? $"mcpserver.{Guid.NewGuid()}.stdio";
         var version = assembly?.GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion.Split('+')[0] ?? "1.0.0";
@@ -27,7 +27,7 @@ public static class StdioServer
         return RunAsync(applicationName, version, servicesAction, args);
     }
 
-    public static Task RunAsync(string applicationName, string version, Action<IServiceCollection> servicesAction, params string[] args)
+    public static Task RunAsync(string applicationName, string version, Action<IServiceCollection, IConfiguration> servicesAction, params string[] args)
     {
         var builder = Host.CreateEmptyApplicationBuilder(settings: new HostApplicationBuilderSettings
         {
@@ -49,7 +49,7 @@ public static class StdioServer
             .WithStdioServerTransport()
             .WithToolsFromAssembly(Assembly.GetEntryAssembly());
 
-        servicesAction(builder.Services);
+        servicesAction(builder.Services, builder.Configuration);
 
         var host = builder.Build();
 
