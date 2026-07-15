@@ -1,4 +1,5 @@
 using System.Reflection;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using ModelContextProtocolServer.Sse;
 using ModelContextProtocolServer.Stdio;
@@ -9,10 +10,10 @@ public static class HybridServer
 {
     public static Task RunAsync(params string[] args)
     {
-        return RunAsync(_ => { }, args);
+        return RunAsync((services, config) => { }, args);
     }
 
-    public static Task RunAsync(Action<IServiceCollection> servicesAction, params string[] args)
+    public static Task RunAsync(Action<IServiceCollection, IConfiguration> servicesAction, params string[] args)
     {
         var assembly = Assembly.GetEntryAssembly();
         var applicationName = assembly?.GetCustomAttribute<AssemblyTitleAttribute>()?.Title ?? $"mcpserver.{Guid.NewGuid()}";
@@ -21,7 +22,7 @@ public static class HybridServer
         return RunAsync(applicationName, version, servicesAction, args);
     }
 
-    public static Task RunAsync(string applicationName, string version, Action<IServiceCollection> servicesAction, params string[] args)
+    public static Task RunAsync(string applicationName, string version, Action<IServiceCollection, IConfiguration> servicesAction, params string[] args)
     {
         if (args.Contains("--sse"))
         {
