@@ -26,6 +26,9 @@ jobs:
       with:
         user: ${{ secrets.NUGET_USER }}
 
+    - name: Push mcpclient to NuGet
+      run: dotnet nuget push "**/packages/mcpclient.nupkg" --api-key ${{steps.login.outputs.NUGET_API_KEY}} --source "https://api.nuget.org/v3/index.json" --skip-duplicate
+
     - name: Push mcpserver projects to NuGet
       run: dotnet nuget push "**/packages/mcpserver.*.nupkg" --api-key ${{steps.login.outputs.NUGET_API_KEY}} --source "https://api.nuget.org/v3/index.json" --skip-duplicate
 
