@@ -5,7 +5,7 @@ namespace ModelContextProtocolServer.Stdio;
 
 internal static class LoggerHelper
 {
-    internal static ILoggerFactory CreateLoggerFactory(string applicationName)
+    internal static ILoggerFactory CreateLoggerFactory(string applicationName, bool addConsoleLogger = false)
     {
         Log.Logger = new LoggerConfiguration()
             .MinimumLevel.Debug()
@@ -16,10 +16,11 @@ internal static class LoggerHelper
 
         return LoggerFactory.Create(builder =>
         {
-            builder.AddConsole(options =>
+            if (addConsoleLogger)
             {
-                options.LogToStandardErrorThreshold = LogLevel.Trace;
-            });
+                builder.AddConsole();
+            }
+
             builder.AddSerilog();
         });
     }

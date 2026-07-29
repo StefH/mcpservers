@@ -33,7 +33,7 @@ public static class SseServer
         });
 
         builder.Services
-            .AddSingleton(LoggerHelper.CreateLoggerFactory(applicationName))
+            .AddSingleton(LoggerHelper.CreateLoggerFactory(applicationName, true))
             .AddMcpServer(o => o.ServerInfo = new Implementation
             {
                 Name = applicationName,
