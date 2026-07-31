@@ -15,13 +15,18 @@ public static class SseServer
         return RunAsync((services, config) => { }, args);
     }
 
-    public static Task RunAsync(Action<IServiceCollection, IConfiguration> servicesAction, params string[] args)
+    public static Task RunAsync(Action<IServiceCollection> servicesAction, params string[] args)
+    {
+        return RunAsync((services, _) => servicesAction(services), args);
+    }
+
+    public static Task RunAsync(Action<IServiceCollection, IConfiguration> action, params string[] args)
     {
         var assembly = Assembly.GetEntryAssembly();
         var applicationName = assembly?.GetCustomAttribute<AssemblyTitleAttribute>()?.Title ?? $"mcpserver.{Guid.NewGuid()}.sse";
         var version = assembly?.GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion.Split('+')[0] ?? "1.0.0";
 
-        return RunAsync(applicationName, version, servicesAction, args);
+        return RunAsync(applicationName, version, action, args);
     }
 
     public static Task RunAsync(string applicationName, string version, Action<IServiceCollection, IConfiguration> servicesAction, params string[] args)

@@ -74,18 +74,28 @@ internal static class ArgumentUtils
 
     private static (bool Simple, Type Type) ConvertParameterDataType(JsonSchemaProperty property, bool required)
     {
-        (bool Simple, Type Type) type = property.Type switch
+        string? type = null;
+        if (property.Type.ValueKind == JsonValueKind.String)
+        {
+            type = property.Type.GetString();
+        }
+        else if (property.Type.ValueKind == JsonValueKind.Array)
+        {
+            type = property.Type.Deserialize<string[]>()?.FirstOrDefault(x => !string.IsNullOrEmpty(x) && x != "null");
+        }
+
+        (bool Simple, Type Type) x = type switch
         {
             "string" => (true, typeof(string)),
             "integer" => (true, typeof(int)),
             "number" => (true, typeof(double)),
             "boolean" => (true, typeof(bool)),
             "array" => (false, typeof(List<object>)),
-            // "object" => (false, typeof(Dictionary<string, object?>)),
+
             _ => (false, typeof(Dictionary<string, object?>))
         };
 
-        return (type.Simple, !required && type.Type.IsValueType ? typeof(Nullable<>).MakeGenericType(type.Type) : type.Type);
+        return (x.Simple, !required && x.Type.IsValueType ? typeof(Nullable<>).MakeGenericType(x.Type) : x.Type);
     }
 
     private static object? ToArgumentValue(Type parameterType, object? value)
@@ -97,7 +107,7 @@ internal static class ArgumentUtils
 
         if (value is string stringValue)
         {
-            if (Nullable.GetUnderlyingType(parameterType) == typeof(string))
+            if (parameterType == typeof(string) || Nullable.GetUnderlyingType(parameterType) == typeof(string))
             {
                 return value;
             }

@@ -66,7 +66,7 @@ internal class McpClientCommand : AsyncCommand<McpClientCommand.Settings>
         }
     }
 
-    public override async Task<int> ExecuteAsync(CommandContext context, Settings settings)
+    protected override async Task<int> ExecuteAsync(CommandContext context, Settings settings, CancellationToken cancellationToken)
     {
         var assembly = Assembly.GetEntryAssembly();
         var applicationName = assembly?.GetCustomAttribute<AssemblyTitleAttribute>()?.Title ?? $"mcpclient.{Guid.NewGuid()}";
@@ -114,16 +114,17 @@ internal class McpClientCommand : AsyncCommand<McpClientCommand.Settings>
             var sseOptions = new HttpClientTransportOptions
             {
                 Endpoint = settings.Location != null ? new Uri(settings.Location) : throw new ArgumentException(nameof(settings.Location)),
+                
                 // AdditionalHeaders = TODO
                 Name = name
             };
             clientTransport = new HttpClientTransport(sseOptions, loggerFactory);
         }
 
-        var client = await McpClient.CreateAsync(clientTransport, clientOptions, loggerFactory: loggerFactory);
+        var client = await McpClient.CreateAsync(clientTransport, clientOptions, loggerFactory, cancellationToken);
         client.DisposeAsyncOnApplicationExit();
 
-        var tools = await client.ListToolsAsync();
+        var tools = await client.ListToolsAsync(cancellationToken: cancellationToken);
         var prompts = tools
             .OrderBy(t => t.Name)
             .Select(t => new MenuItem($"{t.Name} ({t.Description})", t)).ToList();
@@ -135,7 +136,6 @@ internal class McpClientCommand : AsyncCommand<McpClientCommand.Settings>
             var (menu, tool) = AnsiConsole.Prompt(
                 new SelectionPrompt<MenuItem>()
                     .Title("Select a tool to execute:")
-                    .PageSize(10)
                     .AddChoices(prompts)
                     .UseConverter(menuItem => menuItem.Menu)
             );
@@ -147,7 +147,7 @@ internal class McpClientCommand : AsyncCommand<McpClientCommand.Settings>
 
             var inputSchema = tool!.JsonSchema.Deserialize<JsonSchema>();
             var arguments = ArgumentUtils.GetArgumentValues(0, inputSchema?.Properties, inputSchema?.Required);
-            var result = await tool.InvokeAsync(arguments);
+            var result = await tool.InvokeAsync(arguments, cancellationToken);
             var text = ((JsonElement)result!).GetProperty("content")[0].GetProperty("text").GetString();
 
             AnsiConsole.WriteLine();

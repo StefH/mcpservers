@@ -1,5 +1,6 @@
 ﻿// Copyright (c) https://github.com/PederHP/mcpdotnet
 
+using System.Text.Json;
 using System.Text.Json.Serialization;
 
 namespace ModelContextProtocol.Client.Types;
@@ -14,13 +15,13 @@ internal class JsonSchemaProperty
     /// The type of the property. Should be a JSON Schema type and is required.
     /// </summary>
     [JsonPropertyName("type")]
-    public string Type { get; set; } = string.Empty;
+    public required JsonElement Type { get; set; }
 
     /// <summary>
     /// A human-readable description of the property.
     /// </summary>
     [JsonPropertyName("description")]
-    public string? Description { get; set; } = string.Empty;
+    public string? Description { get; set; }
 
     /// <summary>
     /// Map of property names to property definitions.
@@ -33,4 +34,11 @@ internal class JsonSchemaProperty
     /// </summary>
     [JsonPropertyName("required")]
     public List<string>? Required { get; set; }
+
+
+    /// <summary>
+    /// The default value for the schema [optional].
+    /// </summary>
+    [JsonPropertyName("default")]
+    public object? Default { get; set; }
 }
