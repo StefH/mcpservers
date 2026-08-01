@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Reflection;
 using System.Text.Json;
+using Microsoft.Extensions.AI;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using ModelContextProtocol.Client.Extensions;
@@ -114,7 +115,7 @@ internal class McpClientCommand : AsyncCommand<McpClientCommand.Settings>
             var sseOptions = new HttpClientTransportOptions
             {
                 Endpoint = settings.Location != null ? new Uri(settings.Location) : throw new ArgumentException(nameof(settings.Location)),
-                
+
                 // AdditionalHeaders = TODO
                 Name = name
             };
@@ -147,8 +148,23 @@ internal class McpClientCommand : AsyncCommand<McpClientCommand.Settings>
 
             var inputSchema = tool!.JsonSchema.Deserialize<JsonSchema>();
             var arguments = ArgumentUtils.GetArgumentValues(0, inputSchema?.Properties, inputSchema?.Required);
-            var result = await tool.InvokeAsync(arguments, cancellationToken);
-            var text = ((JsonElement)result!).GetProperty("content")[0].GetProperty("text").GetString();
+            var invokeResult = await tool.InvokeAsync(arguments, cancellationToken);
+
+            string? text;
+            if (invokeResult is JsonElement jsonElement)
+            {
+                text = jsonElement.GetProperty("content")[0].GetProperty("text").GetString();
+            }
+            else if (invokeResult is TextContent textContentResult)
+            {
+                text = textContentResult.Text;
+            }
+            else
+            {
+                text = invokeResult?.ToString();
+            }
+
+            text = text?.Replace("\\u0022", "\"");
 
             AnsiConsole.WriteLine();
             AnsiConsole.MarkupLineInterpolated($"[yellow]Result:[/] {text}");

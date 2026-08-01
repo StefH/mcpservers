@@ -15,7 +15,13 @@ internal class JsonSchemaProperty
     /// The type of the property. Should be a JSON Schema type and is required.
     /// </summary>
     [JsonPropertyName("type")]
-    public required JsonElement Type { get; set; }
+    public JsonElement Type { get; set; } = JsonElement.Parse("\"object\"");
+
+    /// <summary>
+    /// The schema for the items in an array property. This is only applicable if the type is "array".
+    /// </summary>
+    [JsonPropertyName("items")]
+    public JsonSchemaProperty? Items { get; set; }
 
     /// <summary>
     /// A human-readable description of the property.
@@ -34,7 +40,6 @@ internal class JsonSchemaProperty
     /// </summary>
     [JsonPropertyName("required")]
     public List<string>? Required { get; set; }
-
 
     /// <summary>
     /// The default value for the schema [optional].

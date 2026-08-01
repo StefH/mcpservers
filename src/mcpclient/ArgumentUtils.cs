@@ -1,4 +1,5 @@
-﻿using System.Text.Json;
+﻿using System.Runtime.InteropServices;
+using System.Text.Json;
 using Microsoft.Extensions.AI;
 using ModelContextProtocol.Client.Types;
 using Spectre.Console;
@@ -9,10 +10,10 @@ internal static class ArgumentUtils
 {
     public static AIFunctionArguments GetArgumentValues(int level, Dictionary<string, JsonSchemaProperty>? properties, List<string>? required)
     {
-        var arguments = new Dictionary<string, object?>();
+        var functionArguments = new AIFunctionArguments();
         if (properties == null)
         {
-            return new AIFunctionArguments();
+            return functionArguments;
         }
 
         var spaces = level > 0 ? new string(' ', level) : string.Empty;
@@ -20,7 +21,8 @@ internal static class ArgumentUtils
         var requiredPropertyNames = required ?? [];
         foreach (var (propertyName, property) in properties)
         {
-            var description = property.Description ?? string.Empty;
+            var escapedDescription = (property.Description ?? string.Empty).EscapeMarkup();
+            var escapedPropertyName = propertyName.EscapeMarkup();
             var isRequired = requiredPropertyNames.Contains(propertyName);
             var type = ConvertParameterDataType(property, isRequired);
 
@@ -28,33 +30,41 @@ internal static class ArgumentUtils
             if (type.Simple)
             {
                 value = isRequired ?
-                    AnsiConsole.Ask<string>($"{spaces}Enter required value for {description} '{propertyName}' : ") :
-                    AnsiConsole.Ask($"{spaces}Enter optional value for {description} '{propertyName}' : ", "null");
+                    AnsiConsole.Ask<string>($"{spaces}Enter required value for {escapedDescription} '{escapedPropertyName}' : ") :
+                    AnsiConsole.Ask($"{spaces}Enter optional value for {escapedDescription} '{escapedPropertyName}' : ", property.Default?.ToString() ?? "null");
             }
             else
             {
                 bool defineValue;
+
                 if (isRequired)
                 {
-                    AnsiConsole.WriteLine($"{spaces}Enter required value for {description} '{propertyName}': ");
                     defineValue = true;
                 }
                 else
                 {
-                    defineValue = AnsiConsole.Confirm($"Do you want to define an optional value for {description} '{propertyName}'?", false);
+                    defineValue = AnsiConsole.Confirm($"Do you want to define an optional value for {escapedDescription} '{escapedPropertyName}'?", false);
                 }
 
                 if (defineValue)
                 {
                     if (type.Type == typeof(Dictionary<string, object?>))
                     {
-                        var args = GetArgumentValues(level + 1, property.Properties, property.Required);
-                        value = JsonSerializer.Serialize(args);
+                        if (property.Properties == null)
+                        {
+                            value = AnsiConsole.Ask<string>($"{spaces}Enter required value for {escapedDescription} '{escapedPropertyName}': ");
+                        }
+                        else
+                        {
+                            AnsiConsole.WriteLine($"{spaces}Enter required value for {escapedDescription} '{escapedPropertyName}': ");
+                            var args = GetArgumentValues(level + 1, property.Properties, property.Required);
+                            value = JsonSerializer.Serialize(args);
+                        }
                     }
                     else
                     {
                         var num = AnsiConsole.Ask<int>($"{spaces}How many array items?");
-                        var array = Enumerable.Range(0, num).Select(index => AnsiConsole.Ask($"{spaces}Enter value for array item[{index}] :", "null"));
+                        var array = Enumerable.Range(0, num).Select(index => AnsiConsole.Ask($"{spaces}Enter value for array item[[{index}]] :", "null"));
                         value = JsonSerializer.Serialize(array);
                     }
 
@@ -66,15 +76,17 @@ internal static class ArgumentUtils
                 }
             }
 
-            arguments[propertyName] = ToArgumentValue(type.Type, value);
+            functionArguments.Add(propertyName, ToArgumentValue(type.Type, value));
         }
 
-        return new AIFunctionArguments(arguments);
+        return functionArguments;
     }
 
     private static (bool Simple, Type Type) ConvertParameterDataType(JsonSchemaProperty property, bool required)
     {
         string? type = null;
+        Type? itemType = null;
+
         if (property.Type.ValueKind == JsonValueKind.String)
         {
             type = property.Type.GetString();
@@ -82,6 +94,11 @@ internal static class ArgumentUtils
         else if (property.Type.ValueKind == JsonValueKind.Array)
         {
             type = property.Type.Deserialize<string[]>()?.FirstOrDefault(x => !string.IsNullOrEmpty(x) && x != "null");
+
+            if (property.Items != null)
+            {
+                itemType = ConvertParameterDataType(property.Items, true).Type;
+            }
         }
 
         (bool Simple, Type Type) x = type switch
@@ -90,7 +107,7 @@ internal static class ArgumentUtils
             "integer" => (true, typeof(int)),
             "number" => (true, typeof(double)),
             "boolean" => (true, typeof(bool)),
-            "array" => (false, typeof(List<object>)),
+            "array" => (false, typeof(List<>).MakeGenericType(itemType ?? typeof(object))),
 
             _ => (false, typeof(Dictionary<string, object?>))
         };
