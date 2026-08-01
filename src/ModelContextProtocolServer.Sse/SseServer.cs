@@ -47,11 +47,12 @@ public static class SseServer
             .WithHttpTransport()
             .WithToolsFromAssembly(Assembly.GetEntryAssembly());
 
-        builder.Services.AddAuthentication(options =>
-        {
+        // AddAuthentication TODO
+        //builder.Services.AddAuthentication(options =>
+        //{
 
-        })
-        .AddMcp();
+        //})
+        //.AddMcp();
 
         builder.Configuration
             .AddCommandLine(args)
