@@ -12,7 +12,7 @@ public static class SseServer
 {
     public static Task RunAsync(params string[] args)
     {
-        return RunAsync((services, config) => { }, args);
+        return RunAsync((_, _) => { }, args);
     }
 
     public static Task RunAsync(Action<IServiceCollection> servicesAction, params string[] args)
@@ -22,27 +22,35 @@ public static class SseServer
 
     public static Task RunAsync(Action<IServiceCollection, IConfiguration> action, params string[] args)
     {
-        var assembly = Assembly.GetEntryAssembly();
-        var applicationName = assembly?.GetCustomAttribute<AssemblyTitleAttribute>()?.Title ?? $"mcpserver.{Guid.NewGuid()}.sse";
-        var version = assembly?.GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion.Split('+')[0] ?? "1.0.0";
-
-        return RunAsync(applicationName, version, action, args);
+        var options = new SseServerOptions();
+        return RunAsync(options, action, args);
     }
 
     public static Task RunAsync(string applicationName, string version, Action<IServiceCollection, IConfiguration> servicesAction, params string[] args)
     {
+        var options = new SseServerOptions
+        {
+            Name = applicationName,
+            Version = version
+        };
+
+        return RunAsync(options, servicesAction, args);
+    }
+
+    public static Task RunAsync(SseServerOptions options, Action<IServiceCollection, IConfiguration> servicesAction, params string[] args)
+    {
         var builder = WebApplication.CreateBuilder(new WebApplicationOptions
         {
-            ApplicationName = applicationName,
+            ApplicationName = options.Name,
             Args = args
         });
 
         builder.Services
-            .AddSingleton(LoggerHelper.CreateLoggerFactory(applicationName, true))
+            .AddSingleton(LoggerHelper.CreateLoggerFactory(options.Name, true))
             .AddMcpServer(o => o.ServerInfo = new Implementation
             {
-                Name = applicationName,
-                Version = version
+                Name = options.Name,
+                Version = options.Version
             })
             .WithHttpTransport()
             .WithToolsFromAssembly(Assembly.GetEntryAssembly());
