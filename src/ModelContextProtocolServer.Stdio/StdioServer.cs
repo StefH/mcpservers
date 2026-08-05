@@ -10,12 +10,7 @@ public static class StdioServer
 {
     public static Task RunAsync(params string[] args)
     {
-        return RunAsync((services, config) => { }, args);
-    }
-
-    public static Task RunAsync(string applicationName, string version, params string[] args)
-    {
-        return RunAsync(applicationName, version, (services, config) => { }, args);
+        return RunAsync((_, _) => { }, args);
     }
 
     public static Task RunAsync(Action<IServiceCollection> servicesAction, params string[] args)
@@ -24,19 +19,27 @@ public static class StdioServer
     }
 
     public static Task RunAsync(Action<IServiceCollection, IConfiguration> action, params string[] args)
-    {   
-        var assembly = Assembly.GetEntryAssembly();
-        var applicationName = assembly?.GetCustomAttribute<AssemblyTitleAttribute>()?.Title ?? $"mcpserver.{Guid.NewGuid()}.stdio";
-        var version = assembly?.GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion.Split('+')[0] ?? "1.0.0";
-
-        return RunAsync(applicationName, version, action, args);
+    {
+        var options = new StdioServerOptions();
+        return RunAsync(options, action, args);
     }
 
     public static Task RunAsync(string applicationName, string version, Action<IServiceCollection, IConfiguration> servicesAction, params string[] args)
     {
+        var options = new StdioServerOptions
+        {
+            Name = applicationName,
+            Version = version
+        };
+
+        return RunAsync(options: options, servicesAction: servicesAction, args);
+    }
+
+    public static Task RunAsync(StdioServerOptions options, Action<IServiceCollection, IConfiguration> servicesAction, params string[] args)
+    {
         var builder = Host.CreateEmptyApplicationBuilder(settings: new HostApplicationBuilderSettings
         {
-            ApplicationName = applicationName,
+            ApplicationName = options.Name,
             Args = args
         });
 
@@ -45,11 +48,16 @@ public static class StdioServer
             .AddEnvironmentVariables();
 
         builder.Services
-            .AddSingleton(LoggerHelper.CreateLoggerFactory(applicationName))
-            .AddMcpServer(o => o.ServerInfo = new Implementation
+            .AddSingleton(LoggerHelper.CreateLoggerFactory(options.Name))
+            .AddMcpServer(o => 
             {
-                Name = applicationName,
-                Version = version
+                o.ServerInfo = new Implementation
+                {
+                    Name = options.Name,
+                    Version = options.Version
+                };
+
+                o.ServerInstructions = options.ServerInstructions;
             })
             .WithStdioServerTransport()
             .WithToolsFromAssembly(Assembly.GetEntryAssembly());

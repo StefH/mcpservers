@@ -1,4 +1,3 @@
-using System.Reflection;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using ModelContextProtocolServer.Sse;
@@ -10,7 +9,7 @@ public static class HybridServer
 {
     public static Task RunAsync(params string[] args)
     {
-        return RunAsync((services, config) => { }, args);
+        return RunAsync((_, _) => { }, args);
     }
 
     public static Task RunAsync(Action<IServiceCollection> servicesAction, params string[] args)
@@ -20,20 +19,40 @@ public static class HybridServer
 
     public static Task RunAsync(Action<IServiceCollection, IConfiguration> action, params string[] args)
     {
-        var assembly = Assembly.GetEntryAssembly();
-        var applicationName = assembly?.GetCustomAttribute<AssemblyTitleAttribute>()?.Title ?? $"mcpserver.{Guid.NewGuid()}";
-        var version = assembly?.GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion.Split('+')[0] ?? "1.0.0";
-
-        return RunAsync(applicationName, version, action, args);
+        var options = new HybridServerOptions();
+        return RunAsync(options, action, args);
     }
 
     public static Task RunAsync(string applicationName, string version, Action<IServiceCollection, IConfiguration> servicesAction, params string[] args)
     {
+        var options = new HybridServerOptions
+        {
+            Name = applicationName,
+            Version = version
+        };
+
+        return RunAsync(options, servicesAction, args);
+    }
+
+    public static Task RunAsync(HybridServerOptions options, Action<IServiceCollection, IConfiguration> servicesAction, params string[] args)
+    {
         if (args.Contains("--sse"))
         {
-            return SseServer.RunAsync(applicationName, version, servicesAction, args);
+            var sseOptions = new SseServerOptions
+            {
+                Name = options.Name,
+                Version = options.Version,
+                ServerInstructions = options.ServerInstructions
+            };
+            return SseServer.RunAsync(sseOptions, servicesAction, args);
         }
 
-        return StdioServer.RunAsync(applicationName, version, servicesAction, args);
+        var stdioOptions = new StdioServerOptions
+        {
+            Name = options.Name,
+            Version = options.Version,
+            ServerInstructions = options.ServerInstructions
+        };
+        return StdioServer.RunAsync(stdioOptions, servicesAction, args);
     }
 }

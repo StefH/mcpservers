@@ -9,6 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Include="..\ModelContextProtocolServer.Stdio\BaseServerOptions.cs" Link="BaseServerOptions.cs" />
     <Compile Include="..\ModelContextProtocolServer.Stdio\LoggerHelper.cs" Link="LoggerHelper.cs" />
   </ItemGroup>
 
