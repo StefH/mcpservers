@@ -30,6 +30,10 @@
     <ProjectReference Include="..\ModelContextProtocolServer.Stdio\ModelContextProtocolServer.Stdio.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Update="Stef.Validation" Version="0.3.0" />
+  </ItemGroup>
+
   <Target Name="UpdateServerJsonVersion" BeforeTargets="BeforeBuild">
     <PropertyGroup>
       <ServerJsonPath>$(MSBuildProjectDirectory)\.mcp\server.json</ServerJsonPath>
